@@ -9,12 +9,16 @@ namespace BeautySalonManager.Models
     public class Treatment
     {
         public int Id { get; set; }
+        [Required]
         [Display(Name="Nazwa zabiegu")]
         public string Name { get; set; }
+        [Required]
         [Display(Name = "Czas trwania zabiegu")]
         public TimeSpan Duration { get; set; }
+        [Required]
         [Display(Name = "Cena zabiegu")]
-        public double Price { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
 
         public ICollection<TreatmentAssignment> TreatmentAssignments { get; set; }
     }

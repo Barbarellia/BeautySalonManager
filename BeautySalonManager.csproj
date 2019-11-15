@@ -10,16 +10,22 @@
     <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
     <Compile Remove="Data\Migrations\20191103215120_Mig.cs" />
     <Compile Remove="Data\Migrations\20191103215120_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115162145_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115162145_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115163109_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115163109_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115165555_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115165555_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115170020_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115170020_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115170124_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115170124_SM_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
   </ItemGroup>
 
 </Project>
