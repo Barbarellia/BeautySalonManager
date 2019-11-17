@@ -20,12 +20,26 @@
     <Compile Remove="Data\Migrations\20191115170020_SM_Mig.Designer.cs" />
     <Compile Remove="Data\Migrations\20191115170124_SM_Mig.cs" />
     <Compile Remove="Data\Migrations\20191115170124_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191115170828_SM_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191115170828_SM_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191117180110_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191117180110_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191117180837_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191117180837_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191117190055_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191117190055_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191117190808_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191117190808_SalonMig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 
 </Project>

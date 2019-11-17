@@ -33,10 +33,25 @@ namespace BeautySalonManager.Pages.Employees
                 return Page();
             }
 
-            _context.Employee.Add(Employee);
-            await _context.SaveChangesAsync();
+            if(!_context.Users.Any(q => q.Email == Employee.User.Email))
+            {
+                return Page();
+            }            
 
-            return RedirectToPage("./Index");
+            var emptyEmployee = new Employee();
+            emptyEmployee.User = _context.Users.FirstOrDefault(q => q.Email == Employee.User.Email);
+
+            if (await TryUpdateModelAsync<Employee>(
+                 emptyEmployee,
+                 "employee",   // Prefix for form value.
+                 s => s.Id, s => s.UserId))
+            {
+                _context.Employee.Add(emptyEmployee);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            return Page();
         }
     }
 }

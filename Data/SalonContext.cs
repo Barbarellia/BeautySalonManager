@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeautySalonManager.Models
 {
-    public class SalonContext : IdentityDbContext
+    public class SalonContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
     {
         public SalonContext (DbContextOptions<SalonContext> options)
             : base(options)

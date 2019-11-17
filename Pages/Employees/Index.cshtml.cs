@@ -6,23 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BeautySalonManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeautySalonManager.Pages.Employees
 {
     public class IndexModel : PageModel
     {
-        private readonly BeautySalonManager.Models.SalonContext _context;
+        private readonly SalonContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public IndexModel(BeautySalonManager.Models.SalonContext context)
+        public IndexModel(SalonContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IList<Employee> Employee { get;set; }
+        public IList<Employee> Employees { get;set; }
 
         public async Task OnGetAsync()
         {
-            Employee = await _context.Employee.ToListAsync();
+            Employees = await _context.Employee.Include(e => e.User).ToListAsync();
         }
     }
 }

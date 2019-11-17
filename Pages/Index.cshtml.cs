@@ -11,6 +11,7 @@ namespace BeautySalonManager.Pages
     {
         public void OnGet()
         {
+            
         }
     }
 }
