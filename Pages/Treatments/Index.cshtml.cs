@@ -18,11 +18,11 @@ namespace BeautySalonManager.Pages.Treatments
             _context = context;
         }
 
-        public IList<Treatment> Treatment { get;set; }
+        public IList<Treatment> Treatments { get;set; }
 
         public async Task OnGetAsync()
         {
-            Treatment = await _context.Treatment.ToListAsync();
+            Treatments = await _context.Treatment.ToListAsync();
         }
     }
 }

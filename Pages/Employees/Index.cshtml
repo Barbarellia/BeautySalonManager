@@ -3,28 +3,40 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>List of Employees</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Add New Employee</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.Employee[0].UserId)*@
+                @Html.DisplayNameFor(model => model.Employees[0].User.FirstName)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employees[0].User.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employees[0].User.Email)
+            </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@*@foreach (var item in Model.Employee) {
+@foreach (var item in Model.Employees) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId) 
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -32,6 +44,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}*@
+}
     </tbody>
 </table>

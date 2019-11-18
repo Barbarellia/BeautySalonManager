@@ -14,10 +14,22 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @*@Html.DisplayNameFor(model => model.Employee.UserId)*@
+            @Html.DisplayNameFor(model => model.Employee.User.FirstName)
         </dt>
         <dd>
-            @*@Html.DisplayFor(model => model.Employee.UserId)*@
+            @Html.DisplayFor(model => model.Employee.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.User.Email)
         </dd>
     </dl>
     

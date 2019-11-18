@@ -30,6 +30,8 @@
     <Compile Remove="Data\Migrations\20191117190055_SalonMig.Designer.cs" />
     <Compile Remove="Data\Migrations\20191117190808_SalonMig.cs" />
     <Compile Remove="Data\Migrations\20191117190808_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191117201220_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191117201220_SalonMig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
