@@ -11,9 +11,9 @@ namespace BeautySalonManager.Pages.Employees
 {
     public class DetailsModel : PageModel
     {
-        private readonly BeautySalonManager.Models.SalonContext _context;
+        private readonly SalonContext _context;
 
-        public DetailsModel(BeautySalonManager.Models.SalonContext context)
+        public DetailsModel(SalonContext context)
         {
             _context = context;
         }
@@ -27,7 +27,9 @@ namespace BeautySalonManager.Pages.Employees
                 return NotFound();
             }
 
-            Employee = await _context.Employee.FirstOrDefaultAsync(m => m.Id == id);
+            Employee = await _context.Employee
+                .Include(q => q.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Employee == null)
             {

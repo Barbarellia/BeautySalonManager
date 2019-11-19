@@ -29,7 +29,9 @@ namespace BeautySalonManager.Pages.Employees
                 return NotFound();
             }
 
-            Employee = await _context.Employee.FirstOrDefaultAsync(m => m.Id == id);
+            Employee = await _context.Employee
+                .Include(q=>q.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Employee == null)
             {

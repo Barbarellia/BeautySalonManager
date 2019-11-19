@@ -14,9 +14,11 @@ namespace BeautySalonManager.Models
         public string Name { get; set; }
         [Required]
         [Display(Name = "Czas trwania zabiegu")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh\\:mm}")]
         public TimeSpan Duration { get; set; }
         [Required]
         [Display(Name = "Cena zabiegu")]
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
