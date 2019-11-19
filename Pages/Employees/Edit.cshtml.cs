@@ -10,11 +10,11 @@ using BeautySalonManager.Models;
 
 namespace BeautySalonManager.Pages.Employees
 {
-    public class EditModel : PageModel
+    public class EditModel : EmployeeTreatmentsPageModel
     {
-        private readonly BeautySalonManager.Models.SalonContext _context;
+        private readonly SalonContext _context;
 
-        public EditModel(BeautySalonManager.Models.SalonContext context)
+        public EditModel(SalonContext context)
         {
             _context = context;
         }
@@ -30,47 +30,44 @@ namespace BeautySalonManager.Pages.Employees
             }
 
             Employee = await _context.Employee
-                .Include(q=>q.User)
+                .Include(q => q.User)
+                .Include(t => t.TreatmentAssignments).ThenInclude(q => q.Treatment)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Employee == null)
             {
                 return NotFound();
             }
+            PopulateAssignedTreatmentData(_context, Employee);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedTreatments)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Employee).State = EntityState.Modified;
+            var employeeToUpdate = await _context.Employee
+                .Include(q => q.User)
+                .Include(t => t.TreatmentAssignments)
+                    .ThenInclude(t => t.Treatment)
+                .FirstOrDefaultAsync(q => q.Id == id);
 
-            try
+            if (await TryUpdateModelAsync<Employee>(
+                employeeToUpdate,
+                "Employee",
+                i => i.TreatmentAssignments))
             {
+                UpdateEmployeeTreatments(_context, selectedTreatments, employeeToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(Employee.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employee.Any(e => e.Id == id);
+            UpdateEmployeeTreatments(_context, selectedTreatments, employeeToUpdate);
+            PopulateAssignedTreatmentData(_context, employeeToUpdate);
+            return Page();
         }
     }
 }
