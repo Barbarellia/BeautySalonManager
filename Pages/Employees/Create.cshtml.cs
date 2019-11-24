@@ -28,18 +28,20 @@ namespace BeautySalonManager.Pages.Employees
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid || !_context.Users.Any(
+                q => q.Email == Employee.User.Email &&
+                q.FirstName == Employee.User.FirstName &&
+                q.LastName == Employee.User.LastName))
             {
-                return Page();
-            }
-
-            if(!_context.Users.Any(q => q.Email == Employee.User.Email))
-            {
+                ModelState.AddModelError(string.Empty, "User not found.");
                 return Page();
             }            
 
             var emptyEmployee = new Employee();
-            emptyEmployee.User = _context.Users.FirstOrDefault(q => q.Email == Employee.User.Email);
+            emptyEmployee.User = _context.Users.FirstOrDefault(
+                q => q.Email == Employee.User.Email &&
+                q.FirstName == Employee.User.FirstName &&
+                q.LastName == Employee.User.LastName);
 
             if (await TryUpdateModelAsync<Employee>(
                  emptyEmployee,

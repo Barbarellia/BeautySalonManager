@@ -29,6 +29,8 @@ namespace BeautySalonManager.Pages.Employees
 
             Employee = await _context.Employee
                 .Include(q => q.User)
+                .Include(q=>q.TreatmentAssignments)
+                    .ThenInclude(q=>q.Treatment)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Employee == null)

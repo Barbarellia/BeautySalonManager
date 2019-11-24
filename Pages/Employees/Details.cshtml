@@ -36,6 +36,15 @@
         <dd>
             @Html.DisplayFor(model => model.Employee.User.PhoneNumber)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.TreatmentAssignments.FirstOrDefault().Treatment.Name)
+        </dt>
+        @foreach (var item in Model.Employee.TreatmentAssignments)
+        {
+            <dd>
+                @Html.DisplayFor(modelItem => item.Treatment.Name)
+            </dd>
+        }
     </dl>
 </div>
 <div>
