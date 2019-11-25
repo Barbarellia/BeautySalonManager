@@ -12,11 +12,13 @@ namespace BeautySalonManager.Models
         public int UserId { get; set; }
         public int TreatmentAssignmentId { get; set; }
         [Display(Name = "Data")]
+        [Required(ErrorMessage = "Pole '{0}' jest wymagane")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
         [Display(Name = "Czy wykonano")]
         public bool Active { get; set; }
 
         public TreatmentAssignment TreatmentAssignment { get; set; }
-        //public User User { get; set; }
+        public AppUser User { get; set; }
     }
 }
