@@ -32,6 +32,18 @@
     <Compile Remove="Data\Migrations\20191117190808_SalonMig.Designer.cs" />
     <Compile Remove="Data\Migrations\20191117201220_SalonMig.cs" />
     <Compile Remove="Data\Migrations\20191117201220_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191118123615_SalonMig.cs" />
+    <Compile Remove="Data\Migrations\20191118123615_SalonMig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191126210537_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191126210537_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191126211149_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191126211149_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191126211752_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191126211752_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191126212627_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191126212627_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191126212919_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191126212919_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

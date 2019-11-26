@@ -20,8 +20,8 @@ namespace BeautySalonManager.Pages
 
         public async Task OnGetAsync()
         {
-            var emp = await _context.Employee.FirstOrDefaultAsync(q => q.Id == 1);
-            var x = FreePeriods(emp, new DateTime(2019, 11, 26, 9, 30, 0)).Result;
+            //var emp = await _context.Employee.FirstOrDefaultAsync(q => q.Id == 1);
+            //var x = FreePeriods(emp, new DateTime(2019, 11, 26, 9, 30, 0)).Result;
         }
 
         public async Task<List<Tuple<DateTime, DateTime>>> FreePeriods(Employee employee, DateTime date)
