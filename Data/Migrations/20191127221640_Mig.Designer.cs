@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeautySalonManager.Data.Migrations
 {
     [DbContext(typeof(SalonContext))]
-    [Migration("20191126213147_Mig")]
+    [Migration("20191127221640_Mig")]
     partial class Mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -20,37 +20,113 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Treatment.Treatments) {
+        @foreach (var item in Model.Treatment.Treatments)
+        {
             string selectedRow = "";
             if (item.Id == Model.TreatmentID)
             {
                 selectedRow = "success";
             }
-        <tr class="@selectedRow">
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @{
-                    foreach (var emp in item.TreatmentAssignments)
-                    {
-                        @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @{
+                        foreach (var emp in item.TreatmentAssignments)
+                        {
+                            @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
+                        }
                     }
-                }
-            </td>
-            <td>
-                <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+@if (Model.Treatment.Employees != null)
+{
+    <h3>Employees assigned to selected treatment</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Last name</th>
+            <th>First name</th>
+            <th>Email</th>
+        </tr>
+
+        @foreach (var item in Model.Treatment.Employees)
+        {
+            string selectedRow = "";
+            if (item.Id == Model.EmployeeID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    <a asp-page="./Index" asp-route-employeeId="@item.Id">Select</a>
+                </td>
+                <td>
+                    @item.User.LastName
+                </td>
+                <td>
+                    @item.User.FirstName
+                </td>
+                <td>
+                    @item.User.Email
+                </td>
+            </tr>
+        }
+
+    </table>
+    @if (Model.Treatment.Enrollments != null)
+    {
+        <h3>
+            Selected employee's enrollments
+        </h3>
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Treatment</th>
+                <th>Customer's last name</th>
+                <th>Customer's first name</th>
+                <th>Customer's email</th>
+                <th>Customer's number</th>
+            </tr>
+            @foreach (var item in Model.Treatment.Enrollments)
+            {
+                <tr>
+                    <td>
+                        @item.Date
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment)
+                    </td>
+                    <td>
+                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).LastName
+                    </td>
+                    <td>
+                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).FirstName
+                    </td>
+                    <td>
+                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).Email
+                    </td>
+                    <td>
+                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).PhoneNumber
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+}

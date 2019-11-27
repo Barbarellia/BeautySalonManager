@@ -19,6 +19,5 @@ namespace BeautySalonManager.Models
         public bool Active { get; set; }
 
         public TreatmentAssignment TreatmentAssignment { get; set; }
-        //public AppUser User { get; set; }
     }
 }

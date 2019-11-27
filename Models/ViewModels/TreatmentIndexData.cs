@@ -9,5 +9,7 @@ namespace BeautySalonManager.Models.ViewModels
     {
         public IEnumerable<Employee> Employees { get; set; }
         public IEnumerable<Treatment> Treatments { get; set; }
+        public IEnumerable<Enrollment> Enrollments { get; set; }
+        public IEnumerable<AppUser> AppUsers { get; set; }
     }
 }
