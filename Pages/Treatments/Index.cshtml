@@ -37,14 +37,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                @*<td>
                     @{
                         foreach (var emp in item.TreatmentAssignments)
                         {
                             @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
                         }
                     }
-                </td>
+                </td>*@
                 <td>
                     <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -111,7 +111,7 @@
                         @item.Date
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment)
+                        @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment.Name)
                     </td>
                     <td>
                         @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).LastName

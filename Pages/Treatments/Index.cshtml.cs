@@ -49,13 +49,16 @@ namespace BeautySalonManager.Pages.Treatments
                 EmployeeID = employeeId.Value;
                 Treatment.Enrollments = await _context.Enrollment
                     .Where(q => q.TreatmentAssignment.EmployeeId == employeeId && q.Active == true)
+                    .Include(q => q.TreatmentAssignment)
+                        .ThenInclude(q => q.Treatment)
                     .ToListAsync();                
             }
 
             if (Treatment.Enrollments != null && Treatment.Enrollments.Count() != 0)
             {
+                var enrolledUserIds = Treatment.Enrollments.Select(q => q.UserId).ToList();
                 Treatment.AppUsers = await _context.Users
-                    .Where(i => Treatment.Enrollments.Select(q => q.Id).ToList().Contains(i.Id)).ToListAsync();
+                    .Where(i => enrolledUserIds.Contains(i.Id)).ToListAsync();
             }
         }
     }
