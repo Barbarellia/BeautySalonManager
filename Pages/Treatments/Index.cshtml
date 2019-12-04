@@ -38,13 +38,13 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 @*<td>
-                    @{
-                        foreach (var emp in item.TreatmentAssignments)
-                        {
-                            @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
+                        @{
+                            foreach (var emp in item.TreatmentAssignments)
+                            {
+                                @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
+                            }
                         }
-                    }
-                </td>*@
+                    </td>*@
                 <td>
                     <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -92,41 +92,6 @@
     </table>
     @if (Model.Treatment.Enrollments != null)
     {
-        <h3>
-            Selected employee's enrollments
-        </h3>
-        <table class="table">
-            <tr>
-                <th>Date</th>
-                <th>Treatment</th>
-                <th>Customer's last name</th>
-                <th>Customer's first name</th>
-                <th>Customer's email</th>
-                <th>Customer's number</th>
-            </tr>
-            @foreach (var item in Model.Treatment.Enrollments)
-            {
-                <tr>
-                    <td>
-                        @item.Date
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment.Name)
-                    </td>
-                    <td>
-                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).LastName
-                    </td>
-                    <td>
-                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).FirstName
-                    </td>
-                    <td>
-                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).Email
-                    </td>
-                    <td>
-                        @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).PhoneNumber
-                    </td>
-                </tr>
-            }
-        </table>
+    <partial name="_FreePeriods" model="Model.Treatment.Enrollments" />
     }
 }

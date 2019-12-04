@@ -22,6 +22,7 @@ namespace BeautySalonManager.Pages.Treatments
         public TreatmentIndexData Treatment { get; set; }
         public int TreatmentID { get; set; }
         public int EmployeeID { get; set; }
+        public PaginatedList<Enrollment> Enrollments { get; set; }
 
         public async Task OnGetAsync(int? id, int? employeeId)
         {

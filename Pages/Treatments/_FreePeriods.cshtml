@@ -1,0 +1,51 @@
+﻿@model List<Models.Enrollment>
+<h3>Wolne terminy pracownika</h3>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Date</li>
+    }
+</ul>
+@{
+    DateTime date = new DateTime(1410,7,15);
+}
+
+@date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date
+
+
+@*<h3>
+        Wolne terminy pracownika
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Treatment</th>
+            <th>Customer's last name</th>
+            <th>Customer's first name</th>
+            <th>Customer's email</th>
+            <th>Customer's number</th>
+        </tr>
+        @foreach (var item in Model.Treatment.Enrollments)
+        {
+            <tr>
+                <td>
+                    @item.Date
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment.Name)
+                </td>
+                <td>
+                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).LastName
+                </td>
+                <td>
+                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).FirstName
+                </td>
+                <td>
+                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).Email
+                </td>
+                <td>
+                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).PhoneNumber
+                </td>
+            </tr>
+        }
+    </table>*@
