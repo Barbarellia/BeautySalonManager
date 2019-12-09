@@ -8,16 +8,20 @@ namespace BeautySalonManager.Pages.Treatments
 {
     public class PaginatedList<T> : List<T>
     {
-        public DateTime Monday { get; private set; }
-        public DateTime Sunday { get; private set; }
-        public DateTime EndDate { get; private set; }
+        //public DateTime Monday { get; private set; }
+        //public DateTime Sunday { get; private set; }
+        //public DateTime EndDate { get; private set; }
+        public int PageIndex { get; private set; }
+        public int TotalPages { get; private set; }
 
-        public PaginatedList(List<T> items, DateTime monday)
+        public PaginatedList(List<T> items, /*DateTime monday*/int pageIndex, int totalPages)
         {
-            Monday = monday;
-            Sunday = monday.AddDays(6);
-            EndDate = DateTime.Now.AddMonths(1).Date.AddDays(-1 * (7 + (DateTime.Now
-                .DayOfWeek - DayOfWeek.Sunday)) % 7).Date;
+            //Monday = monday;
+            //Sunday = monday.AddDays(6);
+            TotalPages = totalPages;
+            PageIndex = pageIndex;
+            //EndDate = DateTime.Now.AddMonths(1).Date.AddDays(-1 * (7 + (DateTime.Now
+            //    .DayOfWeek - DayOfWeek.Sunday)) % 7).Date;
 
             this.AddRange(items);
         }
@@ -26,23 +30,31 @@ namespace BeautySalonManager.Pages.Treatments
         {
             get
             {
-                return (DateTime.Now.Date < Monday);
+                return (PageIndex > 1);
             }
+            //get
+            //{
+            //    return (DateTime.Now.Date < Monday);
+            //}
         }
 
         public bool HasNextPage
         {
             get
             {
-                return (Monday.AddDays(6).Date < EndDate);
+                return (PageIndex < TotalPages);
             }
+            //get
+            //{
+            //    return (Monday.AddDays(6).Date < EndDate);
+            //}
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(
-            IQueryable<T> source, DateTime monday)
+        public static PaginatedList<T> Create(
+            IQueryable<T> source, int pageIndex, int totalPages)
         {
-            var items = await source.ToListAsync();
-            return new PaginatedList<T>(items, monday);
+            var items = source.ToList();
+            return new PaginatedList<T>(items, pageIndex, totalPages);
         }
     }
 }

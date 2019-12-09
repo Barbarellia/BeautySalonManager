@@ -12,7 +12,6 @@ namespace BeautySalonManager.Pages.Treatments
     {
         public async Task OnGetAsync()
         {
-            IQueryable<Enrollment> enrollmentsIQ = from e in Model
         }
     }
 }

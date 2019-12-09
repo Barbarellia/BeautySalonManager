@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BeautySalonManager.Models;
 using BeautySalonManager.Models.ViewModels;
+using System.Globalization;
 
 namespace BeautySalonManager.Pages.Treatments
 {
@@ -24,8 +25,10 @@ namespace BeautySalonManager.Pages.Treatments
         public int EmployeeID { get; set; }
         public PaginatedList<Enrollment> Enrollments { get; set; }
 
-        public async Task OnGetAsync(int? id, int? employeeId)
+        public async Task OnGetAsync(int? id, int? employeeId, int? pageIndex)
         {
+            int totalPages = 1;
+            int currentWeek;
             Treatment = new TreatmentIndexData();
             Treatment.Treatments = await _context.Treatment
                   .Include(i => i.TreatmentAssignments)
@@ -57,10 +60,30 @@ namespace BeautySalonManager.Pages.Treatments
 
             if (Treatment.Enrollments != null && Treatment.Enrollments.Count() != 0)
             {
-                var enrolledUserIds = Treatment.Enrollments.Select(q => q.UserId).ToList();
-                Treatment.AppUsers = await _context.Users
-                    .Where(i => enrolledUserIds.Contains(i.Id)).ToListAsync();
+                DateTime thisWeekMonday = GetMonday(DateTime.Now);
+                IQueryable<Enrollment> enrolIQ = from e in Treatment.Enrollments
+                                                 .AsQueryable()
+                                                 .OrderBy(en => en.Date)
+                                                 select e;
+
+                var enrolWeeksIQ = from e in enrolIQ
+                                   group e by CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday) into weekGroup
+                                   select weekGroup.Key;
+
+                totalPages = enrolWeeksIQ.Count();
+                if (enrolIQ.Any())
+                {
+                    currentWeek = pageIndex != null ? enrolWeeksIQ.ToList()[pageIndex.GetValueOrDefault() - 1]
+                        : CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+                    enrolIQ = enrolIQ.Where(e => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday) == currentWeek);
+                }
+                Enrollments = PaginatedList<Enrollment>.Create(enrolIQ.AsNoTracking(), pageIndex ?? 1, totalPages);
             }
+        }
+
+        public DateTime GetMonday(DateTime date)
+        {
+            return date.Date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date;
         }
     }
 }
