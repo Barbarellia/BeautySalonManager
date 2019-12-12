@@ -1,16 +1,31 @@
-﻿@model List<Models.Enrollment>
+﻿@model PaginatedList<Models.Enrollment>
 <h3>Wolne terminy pracownika</h3>
+@{ 
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+   Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.PageIndex + 1)"
+ 
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
 <ul>
     @foreach (var item in Model)
     {
         <li>@item.Date</li>
     }
 </ul>
-@{
-    DateTime date = new DateTime(1410,7,15);
+@*@{
+    DateTime date = new DateTime(1410, 7, 15);
 }
 
-@date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date
+@date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date*@
 
 
 @*<h3>

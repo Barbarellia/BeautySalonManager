@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+﻿@page "{id:int?}/{employeeId:int?}"
 @model BeautySalonManager.Pages.Treatments.IndexModel
 
 @{
@@ -90,8 +90,8 @@
         }
 
     </table>
-    @if (Model.Treatment.Enrollments != null)
+    @if (Model.Enrollments != null)
     {
-    <partial name="_FreePeriods" model="Model.Treatment.Enrollments" />
+        <partial name="_FreePeriods" model="Model.Enrollments" />
     }
 }
