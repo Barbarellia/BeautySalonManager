@@ -48,6 +48,8 @@
     <Compile Remove="Data\Migrations\20191126213147_Mig.Designer.cs" />
     <Compile Remove="Data\Migrations\20191127221524_Mig.cs" />
     <Compile Remove="Data\Migrations\20191127221524_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191127221640_Mig.cs" />
+    <Compile Remove="Data\Migrations\20191127221640_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

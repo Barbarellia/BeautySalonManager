@@ -34,7 +34,7 @@ namespace BeautySalonManager.Data
                     new AppUser{FirstName="Adam", LastName="Małysz", UserName="adam@małysz.pl",
                         NormalizedUserName="ADAM@MAŁYSZ.PL",Email="adam@małysz.pl", NormalizedEmail="ADAM@MAŁYSZ.PL",
                         PasswordHash="AQAAAAEAACcQAAAAEF2+bzkrQQJxx/o91I+qPiZo+hx5kd9BbVUsvEWk3S7s6yxnrUoyGh4GjZaxUd58VQ==",
-                        SecurityStamp="FD4VTY7VO3NXLA6RDQZ7UUTMICJGQAL6",ConcurrencyStamp="f47689b9-d29c-44e4-af26-00152339e041", 
+                        SecurityStamp="FD4VTY7VO3NXLA6RDQZ7UUTMICJGQAL6",ConcurrencyStamp="f47689b9-d29c-44e4-af26-00152339e041",
                         PhoneNumber="123456789",LockoutEnabled=true,AccessFailedCount=0},
 
                     new AppUser{FirstName="Robert", LastName="Kubica", UserName="robert@kubica.pl",
@@ -60,6 +60,10 @@ namespace BeautySalonManager.Data
                     context.Users.Add(u);
                 }
 
+                context.SaveChanges();
+            }
+            if (!context.Employee.Any())
+            {
                 var emps = new Employee[]
                 {
                     new Employee{UserId=1},
@@ -71,6 +75,10 @@ namespace BeautySalonManager.Data
                 {
                     context.Employee.Add(e);
                 }
+                context.SaveChanges();
+            }
+            if (!context.TreatmentAssignment.Any())
+            {
                 var treatmentAssignments = new TreatmentAssignment[]
                 {
                     new TreatmentAssignment{EmployeeId=1,TreatmentId=1},
@@ -85,6 +93,29 @@ namespace BeautySalonManager.Data
                 foreach (TreatmentAssignment ta in treatmentAssignments)
                 {
                     context.TreatmentAssignment.Add(ta);
+                }
+                context.SaveChanges();
+            }
+            if (!context.Enrollment.Any())
+            {
+                var enrollments = new Enrollment[]
+                {
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,16,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,20,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,31,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,1,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,3,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,5,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,14,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,23,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,24,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,28,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,2,2,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,2,8,10,0,0), Active=true}
+                };
+                foreach (Enrollment en in enrollments)
+                {
+                    context.Enrollment.Add(en);
                 }
                 context.SaveChanges();
             }
