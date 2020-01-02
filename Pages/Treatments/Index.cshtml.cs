@@ -97,43 +97,87 @@ namespace BeautySalonManager.Pages.Treatments
 
         public List<DateTime> FreePeriods(PaginatedList<Enrollment> enrollments, int treatmentId)
         {
+            //list - paginated list of enrollments (list of start&end dates of each enrollment within 1 week)
             List<Tuple<DateTime, DateTime>> list = new List<Tuple<DateTime, DateTime>>();
             TimeSpan duration = _context.Treatment.FirstOrDefault(t => t.Id == treatmentId).Duration;
 
+            //do kazdego enrolla dodaj czas jego trwania np. 10.00-11.30
             foreach (var enrol in enrollments)
             { 
                 list.Add(new Tuple<DateTime, DateTime>(enrol.Date, enrol.Date.Add(enrol.TreatmentAssignment.Treatment.Duration)));          
             }
 
-            List<Tuple<DateTime, DateTime>> freePeriods = new List<Tuple<DateTime, DateTime>>();
-
-            foreach(var item in list.GroupBy(l => l.Item1.Date))
-            {
-                var start = new DateTime(item.Key.Year, item.Key.Month, item.Key.Day, 9, 0, 0);
-                var end = new DateTime(item.Key.Year, item.Key.Month, item.Key.Day, 17, 0, 0);
-                freePeriods.Add(new Tuple<DateTime, DateTime>(start, end));
-            }
-
             List<DateTime> freeHours = new List<DateTime>();
 
-            for(int i=0; i<list.Count(); i++)
-            { 
-                int year = list[i].Item1.Year;
-                int month = list[i].Item1.Month;
-                int day = list[i].Item1.Day;
+                for (int i = 0; i < list.Count(); i++)
+                {
+                    int year = list[i].Item1.Year;
+                    int month = list[i].Item1.Month;
+                    int day = list[i].Item1.Day;
 
-                if(i == 0)
-                {
-                    if(list[i].Item1 - duration <= new DateTime(year, month, day, 9, 0, 0))
+                    DateTime startDay = new DateTime(year, month, day, 9, 0, 0);
+                    DateTime endDay = new DateTime(year, month, day, 17, 0, 0);
+
+                    //jesli i=0 LUB zmiana dnia:
+                    if (i == 0 || (i != 0 && list[i - 1].Item1.Day != list[i].Item1.Day))
                     {
-                        freeHours.Add(new DateTime(year, month, day, 9, 0, 0));
+                        if (list[i].Item1 - startDay >= duration)
+                        {
+                            freeHours.Add(list[i].Item1.Subtract(duration));
+                            var newTime = list[i].Item1.Subtract(duration);
+
+                            while (newTime - startDay > duration)
+                            {
+                                freeHours.Add(newTime.Subtract(duration));
+                                newTime = newTime.Subtract(duration);
+                            }
+                        }
                     }
+                    //jesli ten sam dzien co poprzedni: (I ten sam co nastepny termin (czyli w srodku dnia)):
+                    else if (list[i-1].Item1.Day == list[i].Item1.Day)// && list[i+1].Item1.Day == list[i].Item1.Day)
+                    {
+                        if (list[i].Item1 - list[i - 1].Item2 >= duration)
+                        {
+                            freeHours.Add(list[i].Item1.Subtract(duration));
+                            var newTime = list[i].Item1.Subtract(duration);
+
+                            while (newTime - list[i - 1].Item2 >= duration)
+                            {
+                                freeHours.Add(newTime.Subtract(duration));
+                                newTime = newTime.Subtract(duration);
+                            }
+                        }
+                    }
+                    //jesli ostatni element z listy LUB ( nie ostatni I nastepny dzien jest inny):
+                    if (i == list.Count() - 1 || ((i != list.Count() - 1) && (list[i + 1].Item1.Day != list[i].Item1.Day)))
+                    {
+                        //szukamy wolnego przed terminem, jesli jeszcze nie sprawdzalismy
+                        //if(list[i].Item1 - list[i - 1].Item2 >= duration && (i != 0 && list[i - 1].Item1.Day != list[i].Item1.Day))
+                        //{
+                        //    freeHours.Add(list[i].Item1.Subtract(duration));
+                        //    var newTime = list[i].Item1.Subtract(duration);
+
+                        //    while (newTime - list[i - 1].Item2 >= duration)
+                        //    {
+                        //        freeHours.Add(newTime.Subtract(duration));
+                        //        newTime = newTime.Subtract(duration);
+                        //    }
+                        //}
+
+                        //szukamy wolnego za terminem
+                        if (endDay - list[i].Item2 >= duration)
+                        {
+                                freeHours.Add(endDay.Subtract(duration));
+                                var newTime = endDay.Subtract(duration);
+
+                                while (newTime - list[i].Item2 >= duration)
+                                {
+                                    freeHours.Add(newTime.Subtract(duration));
+                                    newTime = newTime.Subtract(duration);
+                                }
+                            }
+                        }
                 }
-                else if(list[i].Item1 - duration > list[i - 1].Item2)
-                {
-                    freeHours.Add(list[i].Item1 - duration);
-                }
-            }
             return freeHours;
         }
     }
