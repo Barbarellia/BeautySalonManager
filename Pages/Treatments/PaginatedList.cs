@@ -13,7 +13,7 @@ namespace BeautySalonManager.Pages.Treatments
         public DateTime Monday { get; private set; }
         [DisplayFormat(DataFormatString = "{0:dd.MM}", ApplyFormatInEditMode = false)]
         public DateTime Sunday { get; private set; }
-        //public DateTime EndDate { get; private set; }
+        public List<DateTime> FreePeriods { get; set; }
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
 
@@ -23,8 +23,6 @@ namespace BeautySalonManager.Pages.Treatments
             Sunday = monday.AddDays(6);
             TotalPages = totalPages;
             PageIndex = pageIndex;
-            //EndDate = DateTime.Now.AddMonths(1).Date.AddDays(-1 * (7 + (DateTime.Now
-            //    .DayOfWeek - DayOfWeek.Sunday)) % 7).Date;
 
             this.AddRange(items);
         }

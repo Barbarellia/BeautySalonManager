@@ -18,9 +18,9 @@
     <i class="glyphicon glyphicon-chevron-right"></i>
 </a>
 <ul>
-    @foreach (var item in Model)
+    @foreach (var item in Model.FreePeriods)
     {
-        <li>@item.Date</li>
+        <li>@item</li>
     }
 </ul>
 
