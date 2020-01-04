@@ -100,10 +100,10 @@ namespace BeautySalonManager.Data
             {
                 var enrollments = new Enrollment[]
                 {
-                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,16,10,0,0), Active=true},
-                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,20,10,0,0), Active=true},
-                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2019,12,31,10,0,0), Active=true},
-                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,1,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,16,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,20,10,0,0), Active=true},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,1,10,0,0), Active=false},
+                    new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,2,10,0,0), Active=false},
                     new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,3,10,0,0), Active=true},
                     new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,5,10,0,0), Active=true},
                     new Enrollment{UserId = 3, TreatmentAssignmentId = 1, Date = new DateTime(2020,1,14,10,0,0), Active=true},

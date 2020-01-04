@@ -29,7 +29,7 @@ namespace BeautySalonManager.Pages.Treatments
         public async Task OnGetAsync(int? id, int? employeeId, int? pageIndex)
         {
             int totalPages = 1;
-            int currentWeek;
+            int currentWeek = 0;
             Treatment = new TreatmentIndexData();
             Treatment.Treatments = await _context.Treatment
                   .Include(i => i.TreatmentAssignments)
@@ -41,7 +41,7 @@ namespace BeautySalonManager.Pages.Treatments
                   .OrderBy(i => i.Name)
                   .ToListAsync();
 
-            //po kliknieciu w dany treatment wyswietl przypisanych emloyees
+            //po kliknieciu w dany treatment wyjmij przypisanych emloyees
             if (id != null)
             {
                 TreatmentID = id.Value;
@@ -50,7 +50,7 @@ namespace BeautySalonManager.Pages.Treatments
                 Treatment.Employees = treatment.TreatmentAssignments.Select(s => s.Employee);
             }
 
-            //po kliknieciu w danego employee wyswietl enrolle
+            //po kliknieciu w danego employee wyjmij enrolle
             if (employeeId != null)
             {
                 EmployeeID = employeeId.Value;
@@ -61,11 +61,12 @@ namespace BeautySalonManager.Pages.Treatments
                     .ToListAsync();
             }
 
-            //sa enrolle do wyswitlenia
+            //sa enrolle do wyswietlenia
             if (Treatment.Enrollments != null && Treatment.Enrollments.Count() != 0)
             {
                 //znajdz poniedzialek w tym tygodniu
                 DateTime thisWeekMonday = GetMonday(DateTime.Now);
+
                 //ustaw enrolle wg daty
                 IQueryable<Enrollment> enrolIQ = from e in Treatment.Enrollments
                                                  .AsQueryable()
@@ -74,7 +75,8 @@ namespace BeautySalonManager.Pages.Treatments
 
                 //grupuj enrolle na tygodnie
                 var enrolWeeksIQ = from e in enrolIQ
-                                   group e by CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday) into weekGroup
+                                   group e by CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date,
+                                   CalendarWeekRule.FirstDay, DayOfWeek.Monday) into weekGroup
                                    select weekGroup.Key;
 
                 //tyle ile tygodni, tyle stron
@@ -83,34 +85,83 @@ namespace BeautySalonManager.Pages.Treatments
                 {
                     //okreslamy ktory tydzien wyswietlic
                     currentWeek = pageIndex != null ? enrolWeeksIQ.ToList()[pageIndex.GetValueOrDefault() - 1]
-                        : CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+                        : CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,
+                        DayOfWeek.Monday);
                     //wybieramy enrolle z tego tygodnia
-                    enrolIQ = enrolIQ.Where(e => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday) == currentWeek);
+                    enrolIQ = enrolIQ.Where(e => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date,
+                        CalendarWeekRule.FirstDay,
+                            DayOfWeek.Monday) == currentWeek);
+
                 }
-                Enrollments = PaginatedList<Enrollment>.Create(enrolIQ.AsNoTracking(), GetMonday(enrolIQ.FirstOrDefault().Date), pageIndex ?? 1, totalPages);
-                Enrollments.FreePeriods = GetFreePeriods(Enrollments, TreatmentID);
+
+                Enrollments = PaginatedList<Enrollment>.Create(enrolIQ.AsNoTracking(),
+                    GetMonday(enrolIQ.FirstOrDefault().Date), pageIndex ?? 1, totalPages);
+                Enrollments.FreePeriods = GetFreePeriods(Enrollments, TreatmentID, currentWeek);
+                Enrollments.FreePeriods.Sort();
             }
+         
         }
 
         public DateTime GetMonday(DateTime date)
         {
-            return date.Date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date;
+            DateTime monday = date.Date.AddDays(-1 * (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7).Date;
+            return monday;
         }
 
-        public List<DateTime> GetFreePeriods(PaginatedList<Enrollment> enrollments, int treatmentId)
+        public int GetSunday(DateTime date)
+        {
+            DateTime monday = GetMonday(date);
+            int daysInMonth = CultureInfo.CurrentCulture.Calendar.GetDaysInMonth(monday.Year, monday.Month);
+            if (monday.Day + 6 < daysInMonth)
+            {
+                return monday.Day + 6;
+            }
+            else
+            {
+                return (monday.Day + 6) % daysInMonth;
+            }
+        }
+
+        public List<DateTime> GetFreePeriods(PaginatedList<Enrollment> enrollments, int treatmentId, int currentWeek)
         {
             //list - paginated list of enrollments (list of start&end dates of each enrollment within 1 week)
             List<Tuple<DateTime, DateTime>> list = new List<Tuple<DateTime, DateTime>>();
             TimeSpan duration = _context.Treatment.FirstOrDefault(t => t.Id == treatmentId).Duration;
+            List<DateTime> freeHours = new List<DateTime>();
+            List<int> enrollmentDays = new List<int>();
 
-            //do kazdego enrolla dodaj czas jego trwania np. 10.00-11.30
+            //kazdy enroll dopisz do listy
             foreach (var enrol in enrollments)
             {
                 list.Add(new Tuple<DateTime, DateTime>(enrol.Date, enrol.Date.Add(enrol.TreatmentAssignment.Treatment.Duration)));
             }
 
-            List<DateTime> freeHours = new List<DateTime>();
+            //zapisz wszystkie nry dni, ktore maja zapisane enrollmenty
+            for (int i= 0; i < list.Count(); i++)
+            {
+                if(!enrollmentDays.Contains(list[i].Item1.Day))
+                {
+                    enrollmentDays.Add(list[i].Item1.Day);
+                }
+            }
 
+            //jesli podany tydzien to biezacy tydzien roku
+            if (CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,
+                            DayOfWeek.Monday) == currentWeek)
+            {
+                //wez dzisiejszy dzien jako poczatek i wyszukaj piatek
+                int beginningOfWeek = DateTime.Now.Day;
+                int endOfWeek = GetSunday(DateTime.Now);
+                FillEmptyDays(beginningOfWeek, endOfWeek, duration, enrollmentDays, list, freeHours);
+            }
+            else
+            {
+                //wez dowolny element z listy i wyszukaj pon i pt
+                int beginningOfWeek = GetMonday(list[0].Item1).Day;
+                int endOfWeek = GetSunday(list[0].Item1);
+                FillEmptyDays(beginningOfWeek, endOfWeek, duration, enrollmentDays, list, freeHours);
+            }
+            
             for (int i = 0; i < list.Count(); i++)
             {
                 int year = list[i].Item1.Year;
@@ -135,6 +186,7 @@ namespace BeautySalonManager.Pages.Treatments
                 {
                     SearchForHours(endDay, list[i].Item2, duration, freeHours);
                 }
+
             }
             return freeHours;
         }
@@ -152,6 +204,34 @@ namespace BeautySalonManager.Pages.Treatments
                 {
                     freeHours.Add(newTime.Subtract(duration));
                     newTime = newTime.Subtract(duration);
+                }
+            }
+        }
+
+        private void FillEmptyDays(int beginningOfWeek, int endOfWeek, TimeSpan duration, List<int> enrollmentDays, List<Tuple<DateTime,DateTime>> list, List<DateTime> freeHours)
+        {
+            for (int i = beginningOfWeek; i <= endOfWeek; i++)
+            {
+                //sprawdz czy nr dnia od poczatkowego dnia do piatku sa na liscie
+                //jesli ktoregos nru dnia nie ma, wypelnij caly dzien wolnymi terminami
+                if (!enrollmentDays.Contains(i))
+                {
+                    //rok i miesiac zapisz taki, jaki jest w pierwszym elemencie listy
+                    int year = list[0].Item1.Year;
+                    int month = list[0].Item1.Month;
+                    //jesli dany dzien jest mniejszy od poprzedniego (przelom miesiaca np i-1=31, i=1)
+                    //dodaj miesiac+1
+                    if (i < i - 1) { month++; }
+                    //jesli wyszlo ze miesiac = 13, to ustaw styczen nowego roku
+                    if (month == 13)
+                    {
+                        month = 1;
+                        year++;
+                    }
+                    DateTime startDay = new DateTime(year, month, i, 9, 0, 0);
+                    DateTime endDay = new DateTime(year, month, i, 17, 0, 0);
+                    //wypelnij caly dzien wolnymi terminami
+                    SearchForHours(startDay, endDay, duration, freeHours);
                 }
             }
         }
