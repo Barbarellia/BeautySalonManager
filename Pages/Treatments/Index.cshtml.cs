@@ -41,13 +41,14 @@ namespace BeautySalonManager.Pages.Treatments
                   .OrderBy(i => i.Name)
                   .ToListAsync();
 
-            //po kliknieciu w dany treatment wyjmij przypisanych emloyees
+            //po kliknieciu w dany treatment wyjmij przypisanych employees
             if (id != null)
             {
                 TreatmentID = id.Value;
                 Treatment treatment = Treatment.Treatments.Where(
                 i => i.Id == id.Value).Single();
-                Treatment.Employees = treatment.TreatmentAssignments.Select(s => s.Employee);
+                Treatment.Employees = treatment.TreatmentAssignments.Select(
+                    s => s.Employee);
             }
 
             //po kliknieciu w danego employee wyjmij enrolle
@@ -149,14 +150,14 @@ namespace BeautySalonManager.Pages.Treatments
             if (CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,
                             DayOfWeek.Monday) == currentWeek)
             {
-                //wez dzisiejszy dzien jako poczatek i wyszukaj piatek
+                //wez dzisiejszy dzien jako poczatek i wyszukaj niedziele
                 int beginningOfWeek = DateTime.Now.Day;
                 int endOfWeek = GetSunday(DateTime.Now);
                 FillEmptyDays(beginningOfWeek, endOfWeek, duration, enrollmentDays, list, freeHours);
             }
             else
             {
-                //wez dowolny element z listy i wyszukaj pon i pt
+                //wez dowolny element z listy i wyszukaj pon i nd
                 int beginningOfWeek = GetMonday(list[0].Item1).Day;
                 int endOfWeek = GetSunday(list[0].Item1);
                 FillEmptyDays(beginningOfWeek, endOfWeek, duration, enrollmentDays, list, freeHours);

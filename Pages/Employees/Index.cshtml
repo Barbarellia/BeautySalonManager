@@ -1,8 +1,8 @@
-﻿@page
+﻿@page "{id:int?}"
 @model BeautySalonManager.Pages.Employees.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employees";
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -15,19 +15,20 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Employees[0].User.FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employees[0].User.LastName)
+                Last Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Employees[0].User.Email)
+                Email
             </th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Employees) {
+        @foreach (var item in Model.Employee.Employees)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.FirstName)
@@ -39,6 +40,7 @@
                     @Html.DisplayFor(modelItem => item.User.Email)
                 </td>
                 <td>
+                    <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
                     <a asp-page="./Edit" asp-route-id="@item.Id">Assign treatments</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
@@ -47,3 +49,36 @@
         }
     </tbody>
 </table>
+
+@*
+@if(Model.Employees != null)
+{ 
+    <h3>Employee's enrollments</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            @*<th>Date</th>
+            <th>Treatment</th>
+            <th>Client First Name</th>
+            @*<th>Client Last Name</th>
+        </tr>
+
+        @foreach(var item in Model.Employee.Enrollments)
+        {
+            string selectedRow = "";
+            if (item.Id == Model.EmployeeID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @item.TreatmentAssignment.Treatment
+                </td>
+                <td>
+                    @item.UserId
+                </td>
+            </tr>
+        }
+
+    </table>*@
+
