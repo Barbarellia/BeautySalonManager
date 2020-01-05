@@ -1,4 +1,4 @@
-﻿@page "{id:int?}/{employeeId:int?}"
+﻿@page "{id:int?}/{employeeId:int?}/{month?}/{day?}"
 @model BeautySalonManager.Pages.Treatments.IndexModel
 
 @{
@@ -90,8 +90,45 @@
         }
 
     </table>
-    @if (Model.Enrollments != null)
+
+    //----------------------EDIT----------------------------
+    <div class="row">
+        <div class="col-md-6">
+            @if (Model.MonthsNavigation != null)
+            {
+                foreach (var item in Model.MonthsNavigation)
+                {
+                    <a class="btn btn-default" asp-page="./Index" asp-route-month="@item.Item2">@item.Item2</a>
+                }
+                if (Model.SelectedMonthDaysNumber > 0)
+                {
+                    for (int i = 0; i < Model.SelectedMonthDaysNumber; i++)
+                    {
+                        if (i % 7 == 0)
+                        {
+                            @:<br />
+                        }
+                        <a class="btn btn-default" style="width:40px" asp-page="./Index" asp-route-day="@(i+1)">@(i + 1)</a>
+                    }
+                }
+            }
+        </div>
+        <div class="col-md-6">
+            @if (Model.Enrollments != null)
+            {
+                <ul>
+                    @foreach (var item in Model.Enrollments)
+                    {
+                        <li>@item.Date</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    //----------------------EDIT----------------------------
+
+    @*@if (Model.Enrollments != null)
     {
         <partial name="_FreePeriods" model="Model.Enrollments" />
-    }
+    }*@
 }

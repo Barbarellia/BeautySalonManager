@@ -1,5 +1,7 @@
 ﻿@model PaginatedList<Models.Enrollment>
 <h3>Wolne terminy pracownika</h3>
+
+
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -23,42 +25,3 @@
         <li>@item</li>
     }
 </ul>
-
-@*to do podgladu pracownika*@
-
-@*<h3>
-        Terminy wybranego pracownika
-    </h3>
-    <table class="table">
-        <tr>
-            <th>Date</th>
-            <th>Treatment</th>
-            <th>Customer's last name</th>
-            <th>Customer's first name</th>
-            <th>Customer's email</th>
-            <th>Customer's number</th>
-        </tr>
-        @foreach (var item in Model.Treatment.Enrollments)
-        {
-            <tr>
-                <td>
-                    @item.Date
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment.Name)
-                </td>
-                <td>
-                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).LastName
-                </td>
-                <td>
-                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).FirstName
-                </td>
-                <td>
-                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).Email
-                </td>
-                <td>
-                    @Model.Treatment.AppUsers.FirstOrDefault(q => q.Id == item.UserId).PhoneNumber
-                </td>
-            </tr>
-        }
-    </table>*@

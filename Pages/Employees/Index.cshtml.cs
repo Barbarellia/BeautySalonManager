@@ -33,7 +33,8 @@ namespace BeautySalonManager.Pages.Employees
             Employee = new EmployeeIndexData();
             Employee.Employees = await _context.Employee
                 .Include(e => e.User)
-                .Include(e=>e.TreatmentAssignments)//.ThenInclude(e=>e.enr)
+                .Include(e=>e.TreatmentAssignments)
+                    .ThenInclude(e=>e.Enrollments)
                 .AsNoTracking()
                 .OrderBy(e=>e.Id)
                 .ToListAsync();
