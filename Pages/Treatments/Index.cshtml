@@ -128,10 +128,12 @@
                     <div class="list-group">
                         @foreach (var item in Model.FreePeriods)
                         {
-                            <a class="list-group-item" asp-page="./ConfirmEnrollment" 
+                            <a class="list-group-item" 
+                               asp-page="./ConfirmEnrollment" 
                                asp-route-date="@item" 
                                asp-route-treatmentAssignmentId="@Model.TreatmentAssignmentId" 
-                               asp-route-userId="@Model.UserId">@item.ToString("HH:mm")</a>
+                               asp-route-userId="@Model.UserId">@item.ToString("HH:mm")
+                            </a>
                         }
                     </div>
                 }
