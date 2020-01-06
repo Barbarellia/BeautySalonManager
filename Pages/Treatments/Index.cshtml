@@ -88,47 +88,60 @@
                 </td>
             </tr>
         }
-
     </table>
 
-    //----------------------EDIT----------------------------
-    <div class="row">
-        <div class="col-md-6">
-            @if (Model.MonthsNavigation != null)
-            {
-                foreach (var item in Model.MonthsNavigation)
+    @if (Model.MonthsNavigation != null)
+    {
+        <h3>Available hours for this employee</h3>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                @foreach (var item in Model.MonthsNavigation)
                 {
-                    <a class="btn btn-default" asp-page="./Index" asp-route-month="@item.Item2">@item.Item2</a>
+                    string selectedMonth = "default";
+                    if (item.Item2 == Model.SelectedMonth)
+                    {
+                        selectedMonth = "success";
+                    }
+                    <a class="btn btn-@selectedMonth" asp-page="./Index" asp-route-month="@item.Item2">@item.Item2</a>
                 }
-                if (Model.SelectedMonthDaysNumber > 0)
+                @if (Model.SelectedMonthDaysNumber > 0)
                 {
                     for (int i = 0; i < Model.SelectedMonthDaysNumber; i++)
                     {
+                        string selectedDay = "default";
+                        if (i + 1 == Model.SelectedDay)
+                        {
+                            selectedDay = "success";
+                        }
                         if (i % 7 == 0)
                         {
                             @:<br />
                         }
-                        <a class="btn btn-default" style="width:40px" asp-page="./Index" asp-route-day="@(i+1)">@(i + 1)</a>
+                        <a class="btn btn-@selectedDay" style="width:40px" asp-page="./Index" asp-route-day="@(i + 1)">@(i + 1)</a>
                     }
                 }
-            }
+            </div>
+            <div class="col-md-1">
+                @if (Model.Enrollments != null)
+                {
+                    <div class="list-group">
+                        @foreach (var item in Model.FreePeriods)
+                        {
+                            <a class="list-group-item" asp-page="./ConfirmEnrollment" 
+                               asp-route-date="@item" 
+                               asp-route-treatmentAssignmentId="@Model.TreatmentAssignmentId" 
+                               asp-route-userId="@Model.UserId">@item.ToString("HH:mm")</a>
+                        }
+                    </div>
+                }
+            </div>
         </div>
-        <div class="col-md-6">
-            @if (Model.Enrollments != null)
-            {
-                <ul>
-                    @foreach (var item in Model.Enrollments)
-                    {
-                        <li>@item.Date</li>
-                    }
-                </ul>
-            }
-        </div>
-    </div>
+    }
     //----------------------EDIT----------------------------
 
     @*@if (Model.Enrollments != null)
-    {
-        <partial name="_FreePeriods" model="Model.Enrollments" />
-    }*@
+        {
+            <partial name="_FreePeriods" model="Model.Enrollments" />
+        }*@
 }

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BeautySalonManager.Models;
 using BeautySalonManager.Models.ViewModels;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeautySalonManager.Pages.Treatments
 {
@@ -15,10 +17,12 @@ namespace BeautySalonManager.Pages.Treatments
     public class IndexModel : PageModel
     {
         private readonly SalonContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public IndexModel(SalonContext context)
+        public IndexModel(SalonContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public TreatmentIndexData Treatment { get; set; }
@@ -29,8 +33,12 @@ namespace BeautySalonManager.Pages.Treatments
 
         //-------------------------EDIT----------------------------------
         public Tuple<int, string, int>[] MonthsNavigation { get; set; }
+        public string SelectedMonth { get; set; }
+        public int SelectedDay { get; set; }
         public int SelectedMonthDaysNumber { get; set; }
         public List<Enrollment> Enrollments { get; set; }
+        public int TreatmentAssignmentId { get; set; }
+        public int UserId { get; set; }
         //-------------------------/EDIT----------------------------------
 
         public async Task OnGetAsync(int? id, int? employeeId, int? pageIndex, string month, int? day)
@@ -66,7 +74,7 @@ namespace BeautySalonManager.Pages.Treatments
                     .Where(q => q.TreatmentAssignment.EmployeeId == employeeId && q.Active == true)
                     .Include(q => q.TreatmentAssignment)
                         .ThenInclude(q => q.Treatment)
-                    .ToListAsync();
+                    .ToListAsync();                
             }
 
             //sa enrolle do wyswietlenia
@@ -136,10 +144,12 @@ namespace BeautySalonManager.Pages.Treatments
 
             if (MonthsNavigation != null && !String.IsNullOrWhiteSpace(month))   //jesli został wcisniety buton z miesiącem
             {
+                SelectedMonth = month;
                 SelectedMonthDaysNumber = MonthsNavigation.FirstOrDefault(m => m.Item2 == month).Item3; //bierzemy ilosc dni tego miesiaca, ktory kliknelismy
 
                 if (day != null)    //jesli zostal wybrany konkretny dzien
                 {
+                    SelectedDay = day.Value;
                     //pobranie wszystkich danych aby zdefiniowac interesujący nas DateTime (year,month,day)
                     int year = MonthsNavigation.FirstOrDefault(m => m.Item2 == month).Item1;
                     int monthInt = DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month;
@@ -154,8 +164,17 @@ namespace BeautySalonManager.Pages.Treatments
                     // Jeśli nie - wypełnij cały dzien selectedDate wolnymi godzinami 9-17.
                     // Jeśli tak - uzyj niektórych czesci z wczesniejszych metod do zapełnienia dnia wybranymi godzinami.
 
-                    //FreePeriods = GetFreePeriods2(enrollments, selectedDate, TreatmentID);
-                    //FreePeriods.Sort();
+                    FreePeriods = GetFreePeriods2(enrollments, selectedDate, TreatmentID);
+                    FreePeriods.Sort();
+
+                    var ta = _context.TreatmentAssignment
+                    .FirstOrDefault(q => q.EmployeeId == employeeId && q.TreatmentId == id);
+                    if (ta != null)
+                        TreatmentAssignmentId = ta.Id;
+
+                    var userName = User.Identity.Name;
+                    var userId = _userManager.Users.FirstOrDefault(u => u.UserName == userName).Id;
+                    UserId = userId;
                 }
             }
 
@@ -163,7 +182,63 @@ namespace BeautySalonManager.Pages.Treatments
         }
 
         //-----------------------------TODO-------------------------
-        //public List<DateTime> GetFreePeriods2(List<Enrollment> enrollments, DateTime selectedDate, int treatmentId){ }
+        public List<DateTime> GetFreePeriods2(List<Enrollment> enrollments, DateTime selectedDate, int treatmentId) 
+        {
+            List<Tuple<DateTime, DateTime>> workingPeriods = new List<Tuple<DateTime, DateTime>>();
+            TimeSpan duration = _context.Treatment.FirstOrDefault(t => t.Id == treatmentId).Duration;
+            List<DateTime> freeHours = new List<DateTime>();
+
+            DateTime startTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, 9, 0, 0);
+            DateTime endTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, 17, 0, 0);
+
+            if (enrollments.Count() > 0)
+            {
+                foreach (var enrol in enrollments)
+                {
+                    //kazdy enroll dopisz do listy
+                    workingPeriods.Add(new Tuple<DateTime, DateTime>(enrol.Date, enrol.Date.Add(enrol.TreatmentAssignment.Treatment.Duration)));
+                }
+
+                for (int i = 0; i < workingPeriods.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        SearchForHours(workingPeriods[i].Item1, startTime, duration, freeHours);
+                    }
+                    else
+                    {
+                        SearchForHours(workingPeriods[i].Item1, workingPeriods[i - 1].Item2, duration, freeHours);
+                    }
+                    if(i == workingPeriods.Count() - 1)
+                    {
+                        SearchForHours(endTime, workingPeriods[i].Item2, duration, freeHours);
+                    }
+                }
+
+            }
+            else
+            {
+                SearchForHours(endTime, startTime, duration, freeHours);
+            }
+
+            return freeHours;
+        }
+        private void SearchForHours(DateTime subtractItemLeft, DateTime subtractItemRight, TimeSpan duration, List<DateTime> freeHours)
+        {
+            DateTime newTime = new DateTime();
+
+            if (subtractItemLeft - subtractItemRight >= duration)
+            {
+                freeHours.Add(subtractItemLeft.Subtract(duration));
+                newTime = subtractItemLeft.Subtract(duration);
+
+                while (newTime - subtractItemRight >= duration)
+                {
+                    freeHours.Add(newTime.Subtract(duration));
+                    newTime = newTime.Subtract(duration);
+                }
+            }
+        }
 
         public DateTime GetMonday(DateTime date)
         {
@@ -254,22 +329,6 @@ namespace BeautySalonManager.Pages.Treatments
             return freeHours;
         }
 
-        private void SearchForHours(DateTime subtractItemLeft, DateTime subtractItemRight, TimeSpan duration, List<DateTime> freeHours)
-        {
-            DateTime newTime = new DateTime();
-
-            if (subtractItemLeft - subtractItemRight >= duration)
-            {
-                freeHours.Add(subtractItemLeft.Subtract(duration));
-                newTime = subtractItemLeft.Subtract(duration);
-
-                while (newTime - subtractItemRight >= duration)
-                {
-                    freeHours.Add(newTime.Subtract(duration));
-                    newTime = newTime.Subtract(duration);
-                }
-            }
-        }
 
         private void FillEmptyDays(int beginningOfWeek, int endOfWeek, TimeSpan duration, List<int> enrollmentDays, List<Tuple<DateTime,DateTime>> list, List<DateTime> freeHours)
         {
