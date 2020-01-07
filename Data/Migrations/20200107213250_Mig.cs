@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BeautySalonManager.Data.Migrations
 {
-    public partial class SalonMig : Migration
+    public partial class Mig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

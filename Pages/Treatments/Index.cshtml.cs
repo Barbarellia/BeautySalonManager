@@ -198,7 +198,7 @@ namespace BeautySalonManager.Pages.Treatments
                     //kazdy enroll dopisz do listy
                     workingPeriods.Add(new Tuple<DateTime, DateTime>(enrol.Date, enrol.Date.Add(enrol.TreatmentAssignment.Treatment.Duration)));
                 }
-
+                workingPeriods.Sort();
                 for (int i = 0; i < workingPeriods.Count(); i++)
                 {
                     if (i == 0)

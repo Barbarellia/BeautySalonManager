@@ -6,50 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
-    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191103215120_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191103215120_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115162145_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115162145_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115163109_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115163109_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115165555_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115165555_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115170020_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115170020_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115170124_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115170124_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191115170828_SM_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191115170828_SM_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191117180110_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191117180110_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191117180837_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191117180837_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191117190055_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191117190055_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191117190808_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191117190808_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191117201220_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191117201220_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191118123615_SalonMig.cs" />
-    <Compile Remove="Data\Migrations\20191118123615_SalonMig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126210537_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126210537_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126211149_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126211149_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126211752_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126211752_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126212627_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126212627_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126212919_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126212919_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191126213147_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191126213147_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191127221524_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191127221524_Mig.Designer.cs" />
-    <Compile Remove="Data\Migrations\20191127221640_Mig.cs" />
-    <Compile Remove="Data\Migrations\20191127221640_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200107212534_Mig.cs" />
+    <Compile Remove="Data\Migrations\20200107212534_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200107212659_Mig.cs" />
+    <Compile Remove="Data\Migrations\20200107212659_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
