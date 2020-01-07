@@ -132,7 +132,8 @@
                                asp-page="./ConfirmEnrollment" 
                                asp-route-date="@item" 
                                asp-route-treatmentAssignmentId="@Model.TreatmentAssignmentId" 
-                               asp-route-userId="@Model.UserId">@item.ToString("HH:mm")
+                               asp-route-userId="@Model.UserId">
+                                @item.ToString("HH:mm")
                             </a>
                         }
                     </div>

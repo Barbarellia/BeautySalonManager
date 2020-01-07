@@ -173,7 +173,7 @@ namespace BeautySalonManager.Pages.Treatments
                         TreatmentAssignmentId = ta.Id;
 
                     var userName = User.Identity.Name;
-                    var userId = _userManager.Users.FirstOrDefault(u => u.UserName == userName).Id;
+                    var userId = _userManager.Users.FirstOrDefault(u => u.UserName == userName).Id; //zrob awaiiiit
                     UserId = userId;
                 }
             }

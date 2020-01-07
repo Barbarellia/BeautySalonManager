@@ -38,7 +38,9 @@ namespace BeautySalonManager.Pages.Treatments
 
             var newEnrollment = new Enrollment
             {
-
+                Date = date,
+                TreatmentAssignment = treatmentAssignment,
+                UserId = UserId
             };
             return Page();
         }
