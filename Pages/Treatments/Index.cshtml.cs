@@ -71,7 +71,8 @@ namespace BeautySalonManager.Pages.Treatments
             {
                 EmployeeID = employeeId.Value;
                 Treatment.Enrollments = await _context.Enrollment
-                    .Where(q => q.TreatmentAssignment.EmployeeId == employeeId && q.Active == true)
+                    .Where(q => q.TreatmentAssignment.EmployeeId == employeeId 
+                        && q.Active == true)
                     .Include(q => q.TreatmentAssignment)
                         .ThenInclude(q => q.Treatment)
                     .ToListAsync();                
@@ -83,7 +84,7 @@ namespace BeautySalonManager.Pages.Treatments
                 //-------------------------EDIT----------------------------------
 
                 // definiuje tupla przechowującego informacje o (roku, nazwie miesiąca, liczbie dni w tym miesiącu, w tym roku).
-                // sluzy do wyswietlania 3 nastepnych miesiecy na butonach i butonów odpowiadająchych dniom
+                // służy do wyswietlania 3 nastepnych miesiecy na butonach i butonów odpowiadająchych dniom
                 Tuple<int, string, int>[] monthsDays = new Tuple<int, string, int>[3];
                 int monthButtonYear;
                 string monthButtonMonthName;
@@ -103,41 +104,6 @@ namespace BeautySalonManager.Pages.Treatments
                 MonthsNavigation = monthsDays;
 
                 //-------------------------/EDIT----------------------------------
-
-                ////znajdz poniedzialek w tym tygodniu
-                //DateTime thisWeekMonday = GetMonday(DateTime.Now);
-
-                ////ustaw enrolle wg daty
-                //IQueryable<Enrollment> enrolIQ = from e in Treatment.Enrollments
-                //                                 .AsQueryable()
-                //                                 .OrderBy(en => en.Date)
-                //                                 select e;
-
-                ////grupuj enrolle na tygodnie
-                //var enrolWeeksIQ = from e in enrolIQ
-                //                   group e by CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date,
-                //                   CalendarWeekRule.FirstDay, DayOfWeek.Monday) into weekGroup
-                //                   select weekGroup.Key;
-
-                ////tyle ile tygodni, tyle stron
-                //totalPages = enrolWeeksIQ.Count();
-                //if (enrolIQ.Any())
-                //{
-                //    //okreslamy ktory tydzien wyswietlic
-                //    currentWeek = pageIndex != null ? enrolWeeksIQ.ToList()[pageIndex.GetValueOrDefault() - 1]
-                //        : CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,
-                //        DayOfWeek.Monday);
-                //    //wybieramy enrolle z tego tygodnia
-                //    enrolIQ = enrolIQ.Where(e => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Date,
-                //        CalendarWeekRule.FirstDay,
-                //            DayOfWeek.Monday) == currentWeek);
-
-                //}
-
-                //Enrollments = PaginatedList<Enrollment>.Create(enrolIQ.AsNoTracking(),
-                //    GetMonday(enrolIQ.FirstOrDefault().Date), pageIndex ?? 1, totalPages);
-                //Enrollments.FreePeriods = GetFreePeriods(Enrollments, TreatmentID, currentWeek);
-                //Enrollments.FreePeriods.Sort();
             }
 
             //-------------------------EDIT----------------------------------

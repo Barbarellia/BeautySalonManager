@@ -29,7 +29,12 @@
     <tbody>
         @foreach (var item in Model.Employee.Employees)
         {
-            <tr>
+            string selectedRow = "";
+            if(item.Id == Model.EmployeeID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
                 <td>
                     @Html.DisplayFor(modelItem => item.User.FirstName)
                 </td>
@@ -39,6 +44,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Email)
                 </td>
+                @*<td>
+                    @{ 
+                        foreach(var enrollment in item.TreatmentAssignments)
+                        {
+                            @enrollment.Enrollments <br />
+                        }
+                    }
+                </td>*@
                 <td>
                     <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
                     <a asp-page="./Edit" asp-route-id="@item.Id">Assign treatments</a> |
@@ -50,35 +63,43 @@
     </tbody>
 </table>
 
-@*
-@if(Model.Employees != null)
-{ 
+@if (Model.Employee.Enrollments != null)
+{
     <h3>Employee's enrollments</h3>
     <table class="table">
         <tr>
-            <th></th>
-            @*<th>Date</th>
+            <th>Date</th>
             <th>Treatment</th>
             <th>Client First Name</th>
-            @*<th>Client Last Name</th>
+            <th>Client Last Name</th>
         </tr>
 
-        @foreach(var item in Model.Employee.Enrollments)
+
+        @foreach (var item in Model.Employee.Enrollments)
         {
             string selectedRow = "";
-            if (item.Id == Model.EmployeeID)
+            if (item.Id == Model.EnrollmentID)
             {
                 selectedRow = "success";
             }
             <tr class="@selectedRow">
                 <td>
-                    @item.TreatmentAssignment.Treatment
+                    @item.Date
                 </td>
                 <td>
-                    @item.UserId
+                    @item.TreatmentAssignment.Treatment.Name
+                </td>
+                <td>
+                    @item.TreatmentAssignment.Employee.User.FirstName
+                </td>
+                <td>
+                    @item.TreatmentAssignment.Employee.User.LastName <br />
                 </td>
             </tr>
         }
 
-    </table>*@
+    </table>
+}
+
+
 

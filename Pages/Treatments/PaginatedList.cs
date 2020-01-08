@@ -33,10 +33,6 @@ namespace BeautySalonManager.Pages.Treatments
             {
                 return (PageIndex > 1);
             }
-            //get
-            //{
-            //    return (DateTime.Now.Date < Monday);
-            //}
         }
 
         public bool HasNextPage
@@ -45,10 +41,6 @@ namespace BeautySalonManager.Pages.Treatments
             {
                 return (PageIndex < TotalPages);
             }
-            //get
-            //{
-            //    return (Monday.AddDays(6).Date < EndDate);
-            //}
         }
 
         public static PaginatedList<T> Create(

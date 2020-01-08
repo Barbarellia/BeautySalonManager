@@ -28,7 +28,7 @@ namespace BeautySalonManager.Pages.Employees
         public int EmployeeID { get; set; }
         public int EnrollmentID { get; set; }
 
-        public async Task OnGetAsync(int? id, int? employeeId)
+        public async Task OnGetAsync(int? id)
         {
             Employee = new EmployeeIndexData();
             Employee.Employees = await _context.Employee
@@ -41,11 +41,21 @@ namespace BeautySalonManager.Pages.Employees
 
             if(id != null)
             {
-                EmployeeID = id.Value;
-                Employee employee = Employee.Employees.Where(
-                    e => e.Id == id.Value).Single();
+                //EmployeeID = id.Value;
+                Employee.Enrollments = await _context.Enrollment
+                    .Where(s => s.TreatmentAssignment.EmployeeId == id 
+                        && s.Active == true)
+                    .Include(s => s.TreatmentAssignment)
+                        .ThenInclude(s => s.Employee)
+                            .ThenInclude(s=>s.User)
+                    .Include(s=>s.TreatmentAssignment)
+                        .ThenInclude(s=>s.Treatment)
+                    .OrderBy(s=>s.Date)
+                    .ToListAsync();
+                //Employee employee = Employee.Employees.Where(
+                //    e => e.Id == id.Value).Single();
                 //Employee.Enrollments = employee.TreatmentAssignments.Select(
-                  //  s => s.Enrollment);
+                //    s => s.Enrollment);
             }
         }
     }
