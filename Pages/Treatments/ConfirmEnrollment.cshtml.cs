@@ -18,20 +18,25 @@ namespace BeautySalonManager.Pages.Treatments
             _context = context;
         }
 
-        public DateTime EnrollmentDate { get; set; }
         public TreatmentAssignment TreatmentAssignment { get; set; }
         public int UserId { get; set; }
         [BindProperty(SupportsGet = true)]
         public Enrollment Enrollment { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(DateTime date, int treatmentAssignmentId, int userId)
+        public async Task<IActionResult> OnGetAsync(string date, int treatmentAssignmentId, int userId)
         {
             var treatmentAssignment = await _context.TreatmentAssignment
                 .Include(t=>t.Employee).ThenInclude(t=>t.User)
                 .Include(t=>t.Treatment)
                 .FirstOrDefaultAsync(t => t.Id == treatmentAssignmentId);
 
-            if(date == DateTime.MinValue 
+            DateTime enrollmentDate;
+            DateTime.TryParseExact(date, "dd.MM.yyyy HH:mm",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None, 
+                out enrollmentDate);
+
+            if (enrollmentDate == DateTime.MinValue 
                 || treatmentAssignmentId == 0 
                 || userId == 0 
                 || treatmentAssignment == null)
@@ -41,7 +46,8 @@ namespace BeautySalonManager.Pages.Treatments
 
             var newEnrollment = new Enrollment
             {
-                Date = date,
+                Active = true,
+                Date = enrollmentDate,
                 TreatmentAssignment = treatmentAssignment,
                 TreatmentAssignmentId = treatmentAssignment.Id,
                 UserId = userId
@@ -53,7 +59,6 @@ namespace BeautySalonManager.Pages.Treatments
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Enrollment.Active = true;
             if (await TryUpdateModelAsync<Enrollment>(
                  Enrollment,
                  "enrollment",   // Prefix for form value.
@@ -61,7 +66,7 @@ namespace BeautySalonManager.Pages.Treatments
             {
                 _context.Enrollment.Add(Enrollment);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Index",new { message = "Saved successfully!" });
             }
 
             return Page();

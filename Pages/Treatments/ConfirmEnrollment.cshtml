@@ -1,4 +1,4 @@
-﻿@page "{date:datetime?}/{treatmentAssignmentId:int?}/{userId:int?}"
+﻿@page
 @model BeautySalonManager.Pages.Treatments.ConfirmEnrollmentModel
 @{
     ViewData["Title"] = "ConfirmEnrollment";
@@ -42,8 +42,11 @@
                 @Html.DisplayFor(model => model.Enrollment.TreatmentAssignment.Employee.User.LastName)
             </dd>
         </dl>
-        <input type="submit" value="Confirm" class="btn btn-default" /> |
-        <a asp-page="./Index">Back</a>
+        <input type="hidden" asp-for="Enrollment.Active" />
+        <input type="hidden" asp-for="Enrollment.Date" />
+        <input type="hidden" asp-for="Enrollment.TreatmentAssignmentId" />
+        <input type="hidden" asp-for="Enrollment.UserId" />
+        <input type="submit" value="Confirm" class="btn btn-default" />|<a asp-page="./Index">Back</a>
     </form>
 </div>
 

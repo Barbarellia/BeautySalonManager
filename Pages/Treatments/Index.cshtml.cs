@@ -34,6 +34,7 @@ namespace BeautySalonManager.Pages.Treatments
         //-------------------------EDIT----------------------------------
         public Tuple<int, string, int>[] MonthsNavigation { get; set; }
         public string SelectedMonth { get; set; }
+        public int SelectedMonthInt { get; set; }
         public int SelectedDay { get; set; }
         public int SelectedMonthDaysNumber { get; set; }
         public List<Enrollment> Enrollments { get; set; }
@@ -41,10 +42,12 @@ namespace BeautySalonManager.Pages.Treatments
         public int UserId { get; set; }
         //-------------------------/EDIT----------------------------------
 
-        public async Task OnGetAsync(int? id, int? employeeId, int? pageIndex, string month, int? day)
+        public async Task OnGetAsync(int? id, int? employeeId, string month, int? day, string message)
         {
-            int totalPages = 1;
-            int currentWeek = 0;
+            if(message != null)
+            {
+                ModelState.AddModelError(string.Empty, message);
+            }
             Treatment = new TreatmentIndexData();
             Treatment.Treatments = await _context.Treatment
                   .Include(i => i.TreatmentAssignments)
@@ -56,92 +59,77 @@ namespace BeautySalonManager.Pages.Treatments
                   .OrderBy(i => i.Name)
                   .ToListAsync();
 
+            // definiuje tupla przechowującego informacje o (roku, nazwie miesiąca, liczbie dni w tym miesiącu, w tym roku).
+            // służy do wyswietlania 3 nastepnych miesiecy na butonach i butonów odpowiadająchych dniom
+            Tuple<int, string, int>[] monthsDays = new Tuple<int, string, int>[3];
+            int monthButtonYear;
+            string monthButtonMonthName;
+            int monthButtonDaysInMonth;
+
+            for (int i = 0; i < monthsDays.Length; i++) //monthDays.Length = 3
+            {
+                monthButtonYear = DateTime.Now.AddMonths(i).Year;
+                monthButtonMonthName = DateTime.Now.AddMonths(i).ToString("MMMM", CultureInfo.CurrentCulture);  //zamienia miesiąc na polską nazwe
+                monthButtonMonthName = char.ToUpper(monthButtonMonthName[0]) + monthButtonMonthName.Substring(1);   //zamienia pierwszą literę na wielką
+
+                monthButtonDaysInMonth = DateTime.DaysInMonth(DateTime.Now.AddMonths(i).Year, DateTime.Now.AddMonths(i).Month);
+                Tuple<int, string, int> monthAndDays = new Tuple<int, string, int>(monthButtonYear, monthButtonMonthName, monthButtonDaysInMonth);
+                monthsDays[i] = monthAndDays;
+            }
+
+            MonthsNavigation = monthsDays;
+
             //po kliknieciu w dany treatment wyjmij przypisanych employees
             if (id != null)
             {
                 TreatmentID = id.Value;
-                Treatment treatment = Treatment.Treatments.Where(
-                i => i.Id == id.Value).Single();
-                Treatment.Employees = treatment.TreatmentAssignments.Select(
-                    s => s.Employee);
+                Treatment treatment = Treatment.Treatments.Where(i => i.Id == id.Value).Single();
+                Treatment.Employees = treatment.TreatmentAssignments.Select(s => s.Employee);
             }
 
             //po kliknieciu w danego employee wyjmij enrolle
             if (employeeId != null)
             {
-                EmployeeID = employeeId.Value;
-                Treatment.Enrollments = await _context.Enrollment
-                    .Where(q => q.TreatmentAssignment.EmployeeId == employeeId 
-                        && q.Active == true)
-                    .Include(q => q.TreatmentAssignment)
-                        .ThenInclude(q => q.Treatment)
-                    .ToListAsync();                
+                EmployeeID = employeeId.Value;                    
             }
 
-            //sa enrolle do wyswietlenia
-            if (Treatment.Enrollments != null && Treatment.Enrollments.Count() != 0)
-            {
-                //-------------------------EDIT----------------------------------
-
-                // definiuje tupla przechowującego informacje o (roku, nazwie miesiąca, liczbie dni w tym miesiącu, w tym roku).
-                // służy do wyswietlania 3 nastepnych miesiecy na butonach i butonów odpowiadająchych dniom
-                Tuple<int, string, int>[] monthsDays = new Tuple<int, string, int>[3];
-                int monthButtonYear;
-                string monthButtonMonthName;
-                int monthButtonDaysInMonth;
-
-                for (int i = 0; i < monthsDays.Length; i++) //monthDays.Length = 3
-                {
-                    monthButtonYear = DateTime.Now.AddMonths(i).Year;
-                    monthButtonMonthName = DateTime.Now.AddMonths(i).ToString("MMMM", CultureInfo.CurrentCulture);  //zamienia miesiąc na polską nazwe
-                    monthButtonMonthName = char.ToUpper(monthButtonMonthName[0]) + monthButtonMonthName.Substring(1);   //zamienia pierwszą literę na wielką
-
-                    monthButtonDaysInMonth = DateTime.DaysInMonth(DateTime.Now.AddMonths(i).Year, DateTime.Now.AddMonths(i).Month);
-                    Tuple<int, string, int> monthAndDays = new Tuple<int, string, int>(monthButtonYear, monthButtonMonthName, monthButtonDaysInMonth);
-                    monthsDays[i] = monthAndDays;
-                }
-
-                MonthsNavigation = monthsDays;
-
-                //-------------------------/EDIT----------------------------------
-            }
-
-            //-------------------------EDIT----------------------------------
-
-            if (MonthsNavigation != null && !String.IsNullOrWhiteSpace(month))   //jesli został wcisniety buton z miesiącem
+            if (!String.IsNullOrWhiteSpace(month))   //jesli został wcisniety buton z miesiącem
             {
                 SelectedMonth = month;
                 SelectedMonthDaysNumber = MonthsNavigation.FirstOrDefault(m => m.Item2 == month).Item3; //bierzemy ilosc dni tego miesiaca, ktory kliknelismy
+                SelectedMonthInt = DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month;
+            }
 
-                if (day != null)    //jesli zostal wybrany konkretny dzien
-                {
-                    SelectedDay = day.Value;
-                    //pobranie wszystkich danych aby zdefiniowac interesujący nas DateTime (year,month,day)
-                    int year = MonthsNavigation.FirstOrDefault(m => m.Item2 == month).Item1;
-                    int monthInt = DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month;
+            if (day != null)    //jesli zostal wybrany konkretny dzien
+            {
+                SelectedDay = day.Value;
+                //pobranie wszystkich danych aby zdefiniowac interesujący nas DateTime (year,month,day)
+                int year = MonthsNavigation.FirstOrDefault(m => m.Item2 == month).Item1;           
 
-                    DateTime selectedDate = new DateTime(year,monthInt,day.Value);
+                DateTime selectedDate = new DateTime(year,SelectedMonthInt,day.Value);
 
-                    var enrollments = Treatment.Enrollments.Where(e => e.Date.Date == selectedDate.Date).ToList();  //wybieranie tych enrolów ktore są w wybranym dniu
-                    Enrollments = enrollments;
+                //var enrollments = Treatment.Enrollments.Where(e => e.Date.Date == selectedDate.Date).ToList();  //wybieranie tych enrolów ktore są w wybranym dniu
+                var enrollments = await _context.Enrollment
+                                            .Where(q => q.TreatmentAssignment.EmployeeId == employeeId
+                                                && q.Active == true
+                                                && q.Date.Date == selectedDate.Date)
+                                            .Include(q => q.TreatmentAssignment)
+                                                .ThenInclude(q => q.Treatment)
+                                            .ToListAsync();
+                Enrollments = enrollments;
 
-                    // TODO wolne terminy w danym dniu, dla danego treatmentu. 
-                    // Na starcie powinno byc sprawdzanie, czy enrollments.Count() > 0.
-                    // Jeśli nie - wypełnij cały dzien selectedDate wolnymi godzinami 9-17.
-                    // Jeśli tak - uzyj niektórych czesci z wczesniejszych metod do zapełnienia dnia wybranymi godzinami.
+                FreePeriods = GetFreePeriods2(enrollments, selectedDate, id.Value);
+                FreePeriods.Sort();
 
-                    FreePeriods = GetFreePeriods2(enrollments, selectedDate, TreatmentID);
-                    FreePeriods.Sort();
-
-                    var ta = _context.TreatmentAssignment
+                var ta = _context.TreatmentAssignment
                     .FirstOrDefault(q => q.EmployeeId == employeeId && q.TreatmentId == id);
-                    if (ta != null)
-                        TreatmentAssignmentId = ta.Id;
+                if (ta != null)
+                    TreatmentAssignmentId = ta.Id;
 
-                    var userName = User.Identity.Name;
-                    var userId = _userManager.Users.FirstOrDefault(u => u.UserName == userName).Id; //zrob awaiiiit
-                    UserId = userId;
-                }
+                var userName = User.Identity.Name;
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+                var userId = user.Id;
+                UserId = userId;
             }
 
             //-------------------------/EDIT----------------------------------

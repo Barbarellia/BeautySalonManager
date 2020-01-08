@@ -1,4 +1,4 @@
-﻿@page "{id:int?}/{employeeId:int?}/{month?}/{day?}"
+﻿@page "{id:int?}/{employeeId:int?}/{month?}/{day:int?}"
 @model BeautySalonManager.Pages.Treatments.IndexModel
 
 @{
@@ -10,6 +10,9 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<div asp-validation-summary="ModelOnly" class="alert alert-success fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -90,7 +93,7 @@
         }
     </table>
 
-    @if (Model.MonthsNavigation != null)
+    @if (Model.EmployeeID != 0)
     {
         <h3>Available hours for this employee</h3>
         <hr />
@@ -111,7 +114,7 @@
                     {
                         string selectedDay = "default";
                         string disabled = "";
-                        if (i + 1 < DateTime.Now.Day && Model.SelectedMonth == "Styczeń")
+                        if (i + 1 < DateTime.Now.Day && DateTime.Now.Month == Model.SelectedMonthInt)
                         {
                             disabled = "disabled";
                         }
@@ -127,29 +130,35 @@
                     }
                 }
             </div>
-            <div class="col-md-1">
-                @if (Model.Enrollments != null)
+            <div class="col-md-6">
+                @if (Model.SelectedDay != 0)
                 {
-                    <div class="list-group">
-                        @foreach (var item in Model.FreePeriods)
-                        {
-                            <a class="list-group-item" 
-                               asp-page="./ConfirmEnrollment" 
-                               asp-route-date="@item" 
-                               asp-route-treatmentAssignmentId="@Model.TreatmentAssignmentId" 
-                               asp-route-userId="@Model.UserId">
-                                @item.ToString("HH:mm")
-                            </a>
-                        }
-                    </div>
+                    if (Model.FreePeriods.Count == 0)
+                    {
+                        <div class="alert alert-warning">
+                            <strong>All day is booked!</strong>
+                        </div>
+                    }
+                    else
+                    {
+                        string itemDate;
+                        <div class="list-group">
+                            @foreach (var item in Model.FreePeriods)
+                            {
+                                itemDate = item.ToString("dd.MM.yyyy HH:mm");
+                                <a style="width:15%"
+                                   class="list-group-item text-center"
+                                   asp-page="./ConfirmEnrollment"
+                                   asp-route-date="@itemDate"
+                                   asp-route-treatmentAssignmentId="@Model.TreatmentAssignmentId"
+                                   asp-route-userId="@Model.UserId">
+                                    @item.ToString("HH:mm")
+                                </a>
+                            }
+                        </div>
+                    }
                 }
             </div>
         </div>
     }
-    //----------------------EDIT----------------------------
-
-    @*@if (Model.Enrollments != null)
-        {
-            <partial name="_FreePeriods" model="Model.Enrollments" />
-        }*@
 }
