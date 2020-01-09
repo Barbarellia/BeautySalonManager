@@ -12,7 +12,7 @@ namespace BeautySalonManager.Pages
 
         public void OnGet()
         {
-            Message = "Your application description page.";
+            Message = "Aktualne promocje obowiązujące w salonie:";
         }
     }
 }

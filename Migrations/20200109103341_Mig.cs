@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BeautySalonManager.Data.Migrations
+namespace BeautySalonManager.Migrations
 {
     public partial class Mig : Migration
     {
@@ -59,7 +59,8 @@ namespace BeautySalonManager.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Duration = table.Column<TimeSpan>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false)
+                    Price = table.Column<decimal>(nullable: false),
+                    Category = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BeautySalonManager.Data.Migrations
+namespace BeautySalonManager.Migrations
 {
     [DbContext(typeof(SalonContext))]
     partial class SalonContextModelSnapshot : ModelSnapshot
@@ -118,6 +118,8 @@ namespace BeautySalonManager.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Category");
 
                     b.Property<TimeSpan>("Duration");
 

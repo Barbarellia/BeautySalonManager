@@ -10,6 +10,8 @@
     <Compile Remove="Data\Migrations\20200107212534_Mig.Designer.cs" />
     <Compile Remove="Data\Migrations\20200107212659_Mig.cs" />
     <Compile Remove="Data\Migrations\20200107212659_Mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200107213250_Mig.cs" />
+    <Compile Remove="Data\Migrations\20200107213250_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

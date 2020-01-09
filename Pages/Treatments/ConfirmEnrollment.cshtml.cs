@@ -66,7 +66,7 @@ namespace BeautySalonManager.Pages.Treatments
             {
                 _context.Enrollment.Add(Enrollment);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index",new { message = "Saved successfully!" });
+                return RedirectToPage("./Index",new { message = "Zapisano pomyślnie!" });
             }
 
             return Page();

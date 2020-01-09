@@ -2,71 +2,238 @@
 @model BeautySalonManager.Pages.Treatments.IndexModel
 
 @{
-    ViewData["Title"] = "Treatments";
+    ViewData["Title"] = "Zabiegi";
 }
 
-<h2>Treatments</h2>
+<h2>Zabiegi</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Dodaj zabieg</a>
 </p>
 <div asp-validation-summary="ModelOnly" class="alert alert-success fade in">
     <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Price</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Treatment.Treatments)
-        {
-            string selectedRow = "";
-            if (item.Id == Model.TreatmentID)
-            {
-                selectedRow = "success";
-            }
-            <tr class="@selectedRow">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Duration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                @*<td>
-                        @{
-                            foreach (var emp in item.TreatmentAssignments)
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Paznokcie</a>
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Czas trwania</th>
+                            <th>Cena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Treatment.Treatments)
+                        {
+                            if (item.Category == 1)
                             {
-                                @emp.Employee.Id @:  @emp.Employee.User.LastName<br />
+                                string selectedRow = "";
+                                if (item.Id == Model.TreatmentID)
+                                {
+                                    selectedRow = "success";
+                                }
+                                <tr class="@selectedRow">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Duration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        <a asp-page="./Index" asp-route-id="@item.Id">Wybierz</a> |
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                        <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                                    </td>
+                                </tr>
                             }
                         }
-                    </td>*@
-                <td>
-                    <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Rzęsy/brwi</a>
+            </h4>
+        </div>
+        <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Czas trwania</th>
+                            <th>Cena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Treatment.Treatments)
+                        {
+                            if (item.Category == 2)
+                            {
+                                string selectedRow = "";
+                                if (item.Id == Model.TreatmentID)
+                                {
+                                    selectedRow = "success";
+                                }
+                                <tr class="@selectedRow">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Duration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        <a asp-page="./Index" asp-route-id="@item.Id">Wybierz</a> |
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                        <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Ciało</a>
+            </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Czas trwania</th>
+                            <th>Cena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Treatment.Treatments)
+                        {
+                            if (item.Category == 3)
+                            {
+                                string selectedRow = "";
+                                if (item.Id == Model.TreatmentID)
+                                {
+                                    selectedRow = "success";
+                                }
+                                <tr class="@selectedRow">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Duration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        <a asp-page="./Index" asp-route-id="@item.Id">Wybierz</a> |
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                        <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Twarz</a>
+            </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Czas trwania</th>
+                            <th>Cena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Treatment.Treatments)
+                        {
+                            if (item.Category == 4)
+                            {
+                                string selectedRow = "";
+                                if (item.Id == Model.TreatmentID)
+                                {
+                                    selectedRow = "success";
+                                }
+                                <tr class="@selectedRow">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Duration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        <a asp-page="./Index" asp-route-id="@item.Id">Wybierz</a> |
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                        <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (Model.Treatment.Employees != null)
 {
-    <h3>Employees assigned to selected treatment</h3>
+    <h3>Dostępni pracownicy</h3>
     <table class="table">
         <tr>
             <th></th>
-            <th>Last name</th>
-            <th>First name</th>
-            <th>Email</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Adres email</th>
         </tr>
 
         @foreach (var item in Model.Treatment.Employees)
@@ -78,7 +245,7 @@
             }
             <tr class="@selectedRow">
                 <td>
-                    <a asp-page="./Index" asp-route-employeeId="@item.Id">Select</a>
+                    <a asp-page="./Index" asp-route-employeeId="@item.Id">Wybierz</a>
                 </td>
                 <td>
                     @item.User.LastName
@@ -95,7 +262,7 @@
 
     @if (Model.EmployeeID != 0)
     {
-        <h3>Available hours for this employee</h3>
+        <h3>Dostępne terminy</h3>
         <hr />
         <div class="row">
             <div class="col-md-4">
@@ -136,7 +303,7 @@
                     if (Model.FreePeriods.Count == 0)
                     {
                         <div class="alert alert-warning">
-                            <strong>All day is booked!</strong>
+                            <strong>Brak wolnych terminów!</strong>
                         </div>
                     }
                     else

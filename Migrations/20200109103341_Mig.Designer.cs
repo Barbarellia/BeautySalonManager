@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BeautySalonManager.Data.Migrations
+namespace BeautySalonManager.Migrations
 {
     [DbContext(typeof(SalonContext))]
-    [Migration("20200107213250_Mig")]
+    [Migration("20200109103341_Mig")]
     partial class Mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,6 +120,8 @@ namespace BeautySalonManager.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Category");
 
                     b.Property<TimeSpan>("Duration");
 

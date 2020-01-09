@@ -30,6 +30,16 @@
                 <span asp-validation-for="Treatment.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Treatment.Category" class="control-label">Kategoria</label>
+                <select class="form-control" asp-for="Treatment.Category">
+                    <option value="1">Paznokcie</option>
+                    <option value="2">Rzęsy/brwi</option>
+                    <option value="3">Twarz</option>
+                    <option value="4">Ciało</option>
+                </select>
+                <span asp-validation-for="Treatment.Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>

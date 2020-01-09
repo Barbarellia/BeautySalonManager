@@ -30,8 +30,7 @@ namespace BeautySalonManager.Pages.Treatments
         public List<DateTime> FreePeriods { get; set; }
         public int TreatmentID { get; set; }
         public int EmployeeID { get; set; }
-
-        //-------------------------EDIT----------------------------------
+        
         public Tuple<int, string, int>[] MonthsNavigation { get; set; }
         public string SelectedMonth { get; set; }
         public int SelectedMonthInt { get; set; }
@@ -40,7 +39,6 @@ namespace BeautySalonManager.Pages.Treatments
         public List<Enrollment> Enrollments { get; set; }
         public int TreatmentAssignmentId { get; set; }
         public int UserId { get; set; }
-        //-------------------------/EDIT----------------------------------
 
         public async Task OnGetAsync(int? id, int? employeeId, string month, int? day, string message)
         {
@@ -131,8 +129,7 @@ namespace BeautySalonManager.Pages.Treatments
                 var userId = user.Id;
                 UserId = userId;
             }
-
-            //-------------------------/EDIT----------------------------------
+           
         }
 
         //-----------------------------TODO-------------------------

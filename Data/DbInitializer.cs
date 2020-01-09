@@ -16,10 +16,24 @@ namespace BeautySalonManager.Data
             {
                 var treatments = new Treatment[]
                 {
-                    new Treatment{Name="Korekta paznokci żelowych", Duration= new TimeSpan(1,20,0), Price=80},
-                    new Treatment{Name="Korekta paznokci hybrydowych", Duration= new TimeSpan(1,0,0), Price=60},
-                    new Treatment{Name="Założenie paznokci żelowych", Duration= new TimeSpan(1,0,0), Price=80},
-                    new Treatment{Name="Założenie paznokci hybrydowych", Duration= new TimeSpan(1,0,0), Price=100}
+                    new Treatment{Name="Manicure hybrydowy", Duration= new TimeSpan(1,0,0), Price=80, Category=1},
+                    new Treatment{Name="Manicure żelowy - założenie", Duration= new TimeSpan(2,0,0), Price=120, Category=1},
+                    new Treatment{Name="Manicure żelowy - korekta", Duration= new TimeSpan(1,30,0), Price=90, Category=1},
+                    new Treatment{Name="Manicure japoński", Duration= new TimeSpan(0,30,0), Price=60, Category=1},
+                    new Treatment{Name="Pedicure hybrydowy", Duration= new TimeSpan(1,0,0), Price=80, Category=1},
+                    new Treatment{Name="Pedicure klasyczny", Duration= new TimeSpan(1,0,0), Price=60, Category=1},
+                    new Treatment{Name="Przedłużanie rzęs - założenie", Duration= new TimeSpan(1,30,0), Price=150, Category=2},
+                    new Treatment{Name="Przedłużanie rzęs - korekta", Duration= new TimeSpan(1,0,0), Price=100, Category=2},
+                    new Treatment{Name="Henna brwi / rzęs", Duration= new TimeSpan(0,15,0), Price=20, Category=2},
+                    new Treatment{Name="Regulacja brwi", Duration= new TimeSpan(0,15,0), Price=10, Category=2},
+                    new Treatment{Name="Opalanie natryskowe", Duration= new TimeSpan(0,45,0), Price=80, Category=3},
+                    new Treatment{Name="Mikrodermabrazja", Duration= new TimeSpan(1,0,0), Price=100, Category=4},
+                    new Treatment{Name="Zabieg Anti Aging", Duration= new TimeSpan(1,0,0), Price=120, Category=4},
+                    new Treatment{Name="Zabieg Anti Acne", Duration= new TimeSpan(1,0,0), Price=120, Category=4},
+                    new Treatment{Name="Zabieg Anti Dry", Duration= new TimeSpan(1,0,0), Price=120, Category=4},
+                    new Treatment{Name="Zabieg Anti Rouge", Duration= new TimeSpan(1,0,0), Price=120, Category=4},
+                    new Treatment{Name="Masaż twarzy", Duration= new TimeSpan(0,30,0), Price=60, Category=4},
+                    new Treatment{Name="Masaż gorącymi kamieniami", Duration= new TimeSpan(1,0,0), Price=100, Category=3}
                 };
                 foreach (Treatment t in treatments)
                 {
@@ -83,12 +97,14 @@ namespace BeautySalonManager.Data
                 {
                     new TreatmentAssignment{EmployeeId=1,TreatmentId=1},
                     new TreatmentAssignment{EmployeeId=1,TreatmentId=2},
-                    new TreatmentAssignment{EmployeeId=2,TreatmentId=2},
                     new TreatmentAssignment{EmployeeId=2,TreatmentId=3},
-                    new TreatmentAssignment{EmployeeId=3,TreatmentId=3},
-                    new TreatmentAssignment{EmployeeId=3,TreatmentId=4},
-                    new TreatmentAssignment{EmployeeId=4,TreatmentId=4},
-                    new TreatmentAssignment{EmployeeId=4,TreatmentId=1}
+                    new TreatmentAssignment{EmployeeId=2,TreatmentId=4},
+                    new TreatmentAssignment{EmployeeId=3,TreatmentId=5},
+                    new TreatmentAssignment{EmployeeId=3,TreatmentId=6},
+                    new TreatmentAssignment{EmployeeId=4,TreatmentId=7},
+                    new TreatmentAssignment{EmployeeId=4,TreatmentId=8},
+                    new TreatmentAssignment{EmployeeId=4,TreatmentId=9},
+                    new TreatmentAssignment{EmployeeId=4,TreatmentId=10}
                 };
                 foreach (TreatmentAssignment ta in treatmentAssignments)
                 {

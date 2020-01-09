@@ -21,6 +21,9 @@ namespace BeautySalonManager.Models
         [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
+        [Required]
+        [Display(Name = "Kategoria zabiegu")]
+        public int Category { get; set; }
 
         public ICollection<TreatmentAssignment> TreatmentAssignments { get; set; }
     }

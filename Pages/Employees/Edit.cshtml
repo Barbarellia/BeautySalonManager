@@ -16,17 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Employee.Id" />
             <div class="form-group">
-                @*<label asp-for="Employee.User.FirstName" class="control-label"></label>
-                <input asp-for="Employee.User.FirstName" class="form-control" />
-                <span asp-validation-for="Employee.User.FirstName" class="text-danger"></span>*@
-            </div>
-            <div class="form-group">
-                @*<label asp-for="Employee.User.LastName" class="control-label"></label>
-                <input asp-for="Employee.User.LastName" class="form-control" />
-                <span asp-validation-for="Employee.User.LastName" class="text-danger"></span>*@
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-offset-1">
                     <table>
                         <tr>
                             @{
@@ -34,23 +24,23 @@
 
                                 foreach (var treatment in Model.AssignedTreatmentDataList)
                                 {
-                                    if (cnt++ % 3 == 0)
+                                    if (cnt++ % 5 == 0)
                                     {
-                                    @:</tr><tr>
+                                        @:</tr><tr>
                                     }
-                                    @:<td>
+                                    @:<td class="col-md-10 text-center text-nowrap">
                                         <input type="checkbox"
                                                name="selectedTreatments"
                                                value="@treatment.TreatmentId"
                                                @(Html.Raw(treatment.Assigned ? "checked=\"checked\"" : "")) />
-                                        @treatment.TreatmentId@:  @treatment.Name
+                                               @treatment.Name
                                     @:</td>
                                 }
-                            @:</tr>
+                                @:</tr>
                             }
-                        </table>
-                    </div>
+                    </table>
                 </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

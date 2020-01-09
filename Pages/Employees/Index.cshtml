@@ -2,28 +2,21 @@
 @model BeautySalonManager.Pages.Employees.IndexModel
 
 @{
-    ViewData["Title"] = "Employees";
-    //Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Pracownicy";
 }
 
-<h2>List of Employees</h2>
+<h2>Lista Pracowników</h2>
 
 <p>
-    <a asp-page="Create">Add New Employee</a>
+    <a asp-page="Create">Dodaj pracownika</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                First Name
-            </th>
-            <th>
-                Last Name
-            </th>
-            <th>
-                Email
-            </th>
-            <th>Actions</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Adres email</th>
+            <th>Opcje</th>
         </tr>
     </thead>
     <tbody>
@@ -44,19 +37,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Email)
                 </td>
-                @*<td>
-                    @{ 
-                        foreach(var enrollment in item.TreatmentAssignments)
-                        {
-                            @enrollment.Enrollments <br />
-                        }
-                    }
-                </td>*@
                 <td>
-                    <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Assign treatments</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-page="./Index" asp-route-id="@item.Id">Zobacz terminarz</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Przydziel zabiegi</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                 </td>
             </tr>
         }
@@ -65,13 +50,11 @@
 
 @if (Model.Employee.Enrollments != null)
 {
-    <h3>Employee's enrollments</h3>
+    <h3>Terminy pracownika</h3>
     <table class="table">
         <tr>
-            <th>Date</th>
-            <th>Treatment</th>
-            <th>Client First Name</th>
-            <th>Client Last Name</th>
+            <th>Data</th>
+            <th>Zabieg</th>
         </tr>
 
 
@@ -88,12 +71,6 @@
                 </td>
                 <td>
                     @item.TreatmentAssignment.Treatment.Name
-                </td>
-                <td>
-                    @item.TreatmentAssignment.Employee.User.FirstName
-                </td>
-                <td>
-                    @item.TreatmentAssignment.Employee.User.LastName <br />
                 </td>
             </tr>
         }

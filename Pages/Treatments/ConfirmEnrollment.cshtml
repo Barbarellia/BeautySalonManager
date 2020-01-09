@@ -5,9 +5,9 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Confirm Enrollment</h2>
+<h2>Potwierdzenie terminu</h2>
 
-<h3>Are you sure you want to confirm enrollment?</h3>
+<h3>Czy potwierdzasz termin wizyty?</h3>
 <div>
     <form method="post">
         <dl class="dl-horizontal">
@@ -46,7 +46,7 @@
         <input type="hidden" asp-for="Enrollment.Date" />
         <input type="hidden" asp-for="Enrollment.TreatmentAssignmentId" />
         <input type="hidden" asp-for="Enrollment.UserId" />
-        <input type="submit" value="Confirm" class="btn btn-default" />|<a asp-page="./Index">Back</a>
+        <input type="submit" value="Potwierdź" class="btn btn-default" />|<a asp-page="./Index">Powrót</a>
     </form>
 </div>
 
