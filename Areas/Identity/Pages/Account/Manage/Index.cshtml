@@ -1,0 +1,53 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Twój profil";
+    string hidden = "";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<form id="profile-form" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row">
+        <hr />
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                    <a id="edit" class="btn-sm btn-default">Edytuj</a>
+                </dd>
+            </dl>
+        </div>
+        <div id="editField" class="col-md-6" style="display:none">
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Save</button>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+       $(document).ready(function(){
+          $("#edit").click(function(){
+            $("#editField").toggle();
+          });
+        });
+    </script>
+}

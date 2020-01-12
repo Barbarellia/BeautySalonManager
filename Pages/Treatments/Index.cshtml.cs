@@ -40,7 +40,7 @@ namespace BeautySalonManager.Pages.Treatments
         public int TreatmentAssignmentId { get; set; }
         public int UserId { get; set; }
 
-        public async Task OnGetAsync(int? id, int? employeeId, string month, int? day, string message)
+        public async Task OnGetAsync(int? treatmentId, int? employeeId, string month, int? day, string message)
         {
             if(message != null)
             {
@@ -78,10 +78,10 @@ namespace BeautySalonManager.Pages.Treatments
             MonthsNavigation = monthsDays;
 
             //po kliknieciu w dany treatment wyjmij przypisanych employees
-            if (id != null)
+            if (treatmentId != null)
             {
-                TreatmentID = id.Value;
-                Treatment treatment = Treatment.Treatments.Where(i => i.Id == id.Value).Single();
+                TreatmentID = treatmentId.Value;
+                Treatment treatment = Treatment.Treatments.Where(i => i.Id == treatmentId.Value).Single();
                 Treatment.Employees = treatment.TreatmentAssignments.Select(s => s.Employee);
             }
 
@@ -116,11 +116,11 @@ namespace BeautySalonManager.Pages.Treatments
                                             .ToListAsync();
                 Enrollments = enrollments;
 
-                FreePeriods = GetFreePeriods2(enrollments, selectedDate, id.Value);
+                FreePeriods = GetFreePeriods2(enrollments, selectedDate, treatmentId.Value);
                 FreePeriods.Sort();
 
                 var ta = _context.TreatmentAssignment
-                    .FirstOrDefault(q => q.EmployeeId == employeeId && q.TreatmentId == id);
+                    .FirstOrDefault(q => q.EmployeeId == employeeId && q.TreatmentId == treatmentId);
                 if (ta != null)
                     TreatmentAssignmentId = ta.Id;
 
