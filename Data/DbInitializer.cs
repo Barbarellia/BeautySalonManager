@@ -45,8 +45,8 @@ namespace BeautySalonManager.Data
             {
                 var users = new AppUser[]
                 {
-                    new AppUser{FirstName="Adam", LastName="Małysz", UserName="adam@małysz.pl",
-                        NormalizedUserName="ADAM@MAŁYSZ.PL",Email="adam@małysz.pl", NormalizedEmail="ADAM@MAŁYSZ.PL",
+                    new AppUser{FirstName="Adam", LastName="Małysz", UserName="adam@malysz.pl",
+                        NormalizedUserName="ADAM@MALYSZ.PL",Email="adam@malysz.pl", NormalizedEmail="ADAM@MALYSZ.PL",
                         PasswordHash="AQAAAAEAACcQAAAAEF2+bzkrQQJxx/o91I+qPiZo+hx5kd9BbVUsvEWk3S7s6yxnrUoyGh4GjZaxUd58VQ==",
                         SecurityStamp="FD4VTY7VO3NXLA6RDQZ7UUTMICJGQAL6",ConcurrencyStamp="f47689b9-d29c-44e4-af26-00152339e041",
                         PhoneNumber="123456789",LockoutEnabled=true,AccessFailedCount=0},

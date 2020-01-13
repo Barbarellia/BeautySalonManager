@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BeautySalonManager.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeautySalonManager.Pages.Treatments
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly BeautySalonManager.Models.SalonContext _context;

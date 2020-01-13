@@ -43,13 +43,14 @@ namespace BeautySalonManager
                 .AddEntityFrameworkStores<SalonContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Identity/Account/Login");
 
             services.AddDbContext<SalonContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SalonContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -69,6 +70,23 @@ namespace BeautySalonManager
             app.UseAuthentication();
 
             app.UseMvc();
+            CreateUserRoles(services).Wait();
+        }
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
+            string[] roleNames = { "Employee", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole<int>(roleName));
+                }
+            }
         }
     }
 }

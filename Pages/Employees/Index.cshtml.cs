@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BeautySalonManager.Models;
 using BeautySalonManager.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeautySalonManager.Pages.Employees
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SalonContext _context;

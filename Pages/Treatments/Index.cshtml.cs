@@ -10,10 +10,11 @@ using BeautySalonManager.Models.ViewModels;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeautySalonManager.Pages.Treatments
 {
-
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SalonContext _context;
