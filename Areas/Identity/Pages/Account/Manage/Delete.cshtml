@@ -1,0 +1,51 @@
+﻿@page
+@model BeautySalonManager.Areas.Identity.Pages.Account.Manage.DeleteModel
+@{
+    ViewData["Title"] = "Odwołaj wizytę";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Na pewno chcesz odwołać tę wizytę?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Enrollment.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Enrollment.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Enrollment.TreatmentAssignment.Treatment.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Enrollment.TreatmentAssignment.Treatment.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Enrollment.TreatmentAssignment.Employee.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Enrollment.TreatmentAssignment.Employee.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Enrollment.TreatmentAssignment.Employee.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Enrollment.TreatmentAssignment.Employee.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Enrollment.TreatmentAssignment.Employee.User.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Enrollment.TreatmentAssignment.Employee.User.PhoneNumber)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Enrollment.Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

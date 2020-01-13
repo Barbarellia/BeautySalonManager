@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeautySalonManager.Areas.Identity.Pages.Account.Manage
 {
@@ -16,25 +17,33 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly SalonContext _context;
 
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            SalonContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public string Email { get; set; }
-        public string StatusMessage { get; set; }
+        public List<Enrollment> Enrollments { get; set; }
 
         [Phone]
         [BindProperty]
-        [Display(Name = "Phone number")]
+        [Display(Name = "Numer tel.")]
         public string PhoneNumber { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string message)
         {
+            if (message != null)
+            {
+                ModelState.AddModelError(string.Empty, message);
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -43,9 +52,19 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account.Manage
 
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var enrollments = await _context.Enrollment.Where(e => e.UserId == user.Id)
+                .Include(q => q.TreatmentAssignment)
+                    .ThenInclude(q => q.Treatment)
+                .Include(q => q.TreatmentAssignment)
+                    .ThenInclude(q => q.Employee)
+                        .ThenInclude(q => q.User)
+                .OrderBy(q => q.Date)
+                .AsNoTracking()
+                .ToListAsync();
 
             Email = email;
             PhoneNumber = phoneNumber;
+            Enrollments = enrollments;
 
             return Page();
         }
@@ -53,8 +72,8 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-            {
-                return Page();
+            {                
+                return RedirectToPage("./Index", new { message = "Nieprawidłowy numer telefonu." });
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -75,7 +94,6 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
     }
