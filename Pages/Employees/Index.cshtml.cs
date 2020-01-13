@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BeautySalonManager.Pages.Employees
 {
-    [Authorize]
+    [Authorize(Roles ="Employee")]
     public class IndexModel : PageModel
     {
         private readonly SalonContext _context;

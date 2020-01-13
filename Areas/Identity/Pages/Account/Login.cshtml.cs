@@ -81,15 +81,21 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var user = _userManager.Users.FirstOrDefault(u => u.Email == Input.Email);
+                if(user != null)
+                {
+                    if (_userManager.GetRolesAsync(user).Result.Count == 0)
+                    {
+                        if (empArray.Contains(user.Email))
+                            await _userManager.AddToRoleAsync(user, "Employee");
+                        else
+                            await _userManager.AddToRoleAsync(user, "Customer");
+                    }
+                }
+                
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
-                {
-                    var user = _userManager.Users.FirstOrDefault(u => u.Email == Input.Email);
-                    if (empArray.Contains(user.Email) && _userManager.GetRolesAsync(user).con)
-                    {
-                    }
+                {                  
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

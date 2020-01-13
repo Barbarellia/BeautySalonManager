@@ -83,7 +83,10 @@
                                         </td>
                                         <td>
                                             <a asp-page="./Index" asp-route-treatmentId="@item.Id">Wybierz</a> |
-                                            <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                            @if (User.IsInRole("Employee"))
+                                            {
+                                                <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> @: |
+                                            }
                                             <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
                                             <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                                         </td>

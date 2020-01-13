@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BeautySalonManager.Pages.Treatments
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly SalonContext _context;
@@ -41,7 +40,7 @@ namespace BeautySalonManager.Pages.Treatments
         public int TreatmentAssignmentId { get; set; }
         public int UserId { get; set; }
 
-        public async Task OnGetAsync(int? treatmentId, int? employeeId, string month, int? day, string message)
+        public async Task<IActionResult> OnGetAsync(int? treatmentId, int? employeeId, string month, int? day, string message)
         {
             if(message != null)
             {
@@ -126,11 +125,15 @@ namespace BeautySalonManager.Pages.Treatments
                     TreatmentAssignmentId = ta.Id;
 
                 var userName = User.Identity.Name;
+                if (userName == null)
+                {
+                    return LocalRedirect("/Identity/Account/Login");
+                }
                 var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
                 var userId = user.Id;
                 UserId = userId;
             }
-           
+            return null;           
         }
 
         //-----------------------------TODO-------------------------
