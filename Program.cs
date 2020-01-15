@@ -22,6 +22,7 @@ namespace BeautySalonManager
                 {
                     var context = services.GetRequiredService<SalonContext>();
                     DbInitializer.Initialize(context);
+                    EnrollmentStatusHandler.ChangePastEnrollmentsStatus(context);
                 }
                 catch (Exception ex)
                 {

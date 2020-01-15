@@ -3,8 +3,84 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url(../images/background.jpg);
-    background-size: 100%;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background-image: url(../images/leaves.png);
+    background-size:100%;
+    color:white;
+}
+
+.navbar-default {
+    background: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+a {
+    color: white;
+}
+
+a:hover,
+a:focus {
+    color: #89bdd4;
+    text-decoration: none;
+}
+
+.nav.navbar-nav li a {
+    color: white;
+}
+.nav.navbar-nav li a:hover {
+    color: gray;
+}
+
+.panel {
+    background-color: lightgray;
+}
+
+/*panel - tekst*/
+
+.panel-body > table{
+    color:darkslategray;
+}
+
+.panel-collapse > .panel-body > table.table-hover > tbody > tr:hover {
+    color: white;
+    background-color: #9ebd91;
+}
+
+table.table-hover > tbody > tr:hover {
+    background-color: #174233;
+}
+
+table.table-hover > tbody > tr.success > td {
+    background-color:white;
+    color:#174233;
+}
+
+table.table-hover > tbody > tr.success > td > a {
+    color: #174233;
+}
+
+.panel-collapse > .panel-body > table.table-hover > tbody > tr > td > a, .panel-heading > .panel-title > a {
+    /*jasniejszy*/
+    color: #1d825f;
+}
+.panel-collapse > .panel-body > table.table-hover > tbody > tr > td > a:hover, .panel-heading > .panel-title > a:hover {
+    /*ciemniejszy*/
+    color: #174233;
+}
+
+.banner {
+    display: inline-block;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: antiquewhite;
+    opacity: 0.8;
+    text-align: center;
+    font-family: 'Cormorant SC';
+    color: black;
+    margin-top: 50px;
+    margin-bottom: 60px;
 }
 
 /* Wrapping element */

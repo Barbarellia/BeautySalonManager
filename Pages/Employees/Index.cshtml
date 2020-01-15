@@ -72,10 +72,10 @@
                 }
                 <tr class="@selectedRow">
                     <td>
-                        @item.Date
+                        @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
-                        @item.TreatmentAssignment.Treatment.Name
+                        @Html.DisplayFor(modelItem => item.TreatmentAssignment.Treatment.Name)
                     </td>
                 </tr>
             }

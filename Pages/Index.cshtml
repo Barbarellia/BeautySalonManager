@@ -3,38 +3,46 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
-<div class="jumbotron">
-    <h1>Barbeauty</h1>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Witaj w świecie piękna!</h2>
-        <p>
-            Nasz salon oferuje szeroki wachlarz zabiegów, dzięki którym możesz poprawić swoje samopoczucie, urodę oraz zdrowie. 
-            Praca jest naszą pasją, stawiamy więc na ciągły rozwój poprzez uczestnictwo w certyfikowanych kursach.
-            Staramy się, aby atmosfera w naszym miejscu pozwalała na odpoczynek od codziennych obowiązków, 
-            a wizyta była chwilą relaksu dla wszystkich naszych Klientów. Oferujemy więc profesjonalne zabiegi,
-            sympatyczny personel oraz pyszną kawę i herbatę.
-        </p>
+    <div style="text-align:center">
+        <div class="banner">
+            <p style="font-size:64px">BARBEAUTY</p>
+            <p style="font-size:30px">SALON URODY</p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Zapoznaj się z naszą ofertą</h2>
-        <p>Zachęcamy do zapoznania się z pełną ofertą salonu, zamieszczonej w zakładce Usługi. Po wybraniu odpowiedniego zabiegu,
-            należy kliknąć przycisk Wybierz, w celu ustalenia terminu wizyty.</p>
-        <p>
-            <a asp-page="./Treatments/Index" class="btn btn-default">
-                Zobacz ofertę &raquo;
-            </a>
-        </p>
+    
+    <div class="row banner" style="
+                            text-align:left; 
+                            font-family: 'Lucida Sans Unicode', sans-serif;
+                            padding:30px;">
+        <div class="col-md-4">
+            <h2>Witaj w świecie piękna!</h2>
+            <p>
+                Nasz salon oferuje szeroki wachlarz zabiegów, dzięki którym możesz poprawić swoje samopoczucie, urodę oraz zdrowie.
+                Praca jest naszą pasją, stawiamy więc na ciągły rozwój poprzez uczestnictwo w certyfikowanych kursach.
+                Staramy się, aby atmosfera w naszym miejscu pozwalała na odpoczynek od codziennych obowiązków,
+                a wizyta była chwilą relaksu dla wszystkich naszych Klientów. Oferujemy więc profesjonalne zabiegi,
+                sympatyczny personel oraz pyszną kawę i herbatę.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>Zapoznaj się z naszą ofertą</h2>
+            <p>
+                Zachęcamy do zapoznania się z pełną ofertą salonu, zamieszczonej w zakładce Usługi. Po wybraniu odpowiedniego zabiegu,
+                należy kliknąć przycisk Wybierz, w celu ustalenia terminu wizyty.
+            </p>
+            <p>
+                <a asp-page="./Treatments/Index" class="btn btn-default">
+                    Zobacz ofertę &raquo;
+                </a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>Aktualności</h2>
+            <p>Aby być na bieżąco z aktualnymi promocjami obowiązującymi w salonie, zajrzyj do zakładki Promocje.</p>
+            <p>
+                <a asp-page="./About" class="btn btn-default">
+                    Zobacz aktualne promocje &raquo;
+                </a>
+            </p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Aktualności</h2>
-        <p>Aby być na bieżąco z aktualnymi promocjami obowiązującymi w salonie, zajrzyj do zakładki Promocje.</p>
-        <p>
-            <a asp-page="./About" class="btn btn-default">
-                Zobacz aktualne promocje &raquo;
-            </a>
-        </p>
-    </div>
-</div>
