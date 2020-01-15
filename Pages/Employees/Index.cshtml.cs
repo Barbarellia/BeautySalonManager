@@ -30,8 +30,13 @@ namespace BeautySalonManager.Pages.Employees
         public int EmployeeID { get; set; }
         public int EnrollmentID { get; set; }
 
-        public async Task OnGetAsync(int? id)
+        public async Task OnGetAsync(int? id, string message)
         {
+            if (message != null)
+            {
+                ModelState.AddModelError(string.Empty, message);
+            }
+
             Employee = new EmployeeIndexData();
             Employee.Employees = await _context.Employee
                 .Include(e => e.User)

@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body> @*style="background-color:darkgrey">*@
+<body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -30,13 +30,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
-                    <li><a asp-page="/Treatments/Index">Treatments</a></li>
+                    <li><a asp-page="/Index">Strona główna</a></li>
+                    <li><a asp-page="/About">Promocje</a></li>
+                    <li><a asp-page="/Contact">Kontakt</a></li>
+                    <li><a asp-page="/Treatments/Index">Usługi</a></li>
                     @if (User.IsInRole("Employee"))
                     {
-                        <li><a asp-page="/Employees/Index">Employees</a></li>
+                        <li><a asp-page="/Employees/Index">Pracownicy</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />
@@ -50,7 +50,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - BeautySalonManager</p>
+            <p>&copy; 2020 - BeautySalonManager</p>
         </footer>
     </div>
 

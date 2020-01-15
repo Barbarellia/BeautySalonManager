@@ -2,13 +2,11 @@
 @model BeautySalonManager.Pages.Employees.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Przydziel zabiegi";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-<h4>Employee</h4>
+<h2>@ViewData["Title"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,14 +40,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Zapisz" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Wróć</a>
 </div>
 
 @section Scripts {

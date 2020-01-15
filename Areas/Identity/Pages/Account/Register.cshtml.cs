@@ -18,7 +18,6 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly IConfiguration _configuration;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -26,13 +25,11 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IConfiguration configuration)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _configuration = configuration;
         }
 
         [BindProperty]
@@ -80,10 +77,8 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            IConfigurationSection employeesSection = _configuration.GetSection("Employees");
-            var empArray = employeesSection.Get<string[]>();
-
             returnUrl = returnUrl ?? Url.Content("~/");
+
             if (ModelState.IsValid)
             {
                 var user = new AppUser 
@@ -98,10 +93,7 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if (empArray.Contains(user.Email))
-                        await _userManager.AddToRoleAsync(user, "Employee");
-                    else
-                        await _userManager.AddToRoleAsync(user, "Customer");
+                    await _userManager.AddToRoleAsync(user, "Customer");
 
                     _logger.LogInformation("User created a new account with password.");
 

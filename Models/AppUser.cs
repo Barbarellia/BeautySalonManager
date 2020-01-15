@@ -15,5 +15,7 @@ namespace BeautySalonManager.Models
         [Required]
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
+        [Display(Name = "Numer tel.")]
+        public string PhoneNumber { get; set; }
     }
 }

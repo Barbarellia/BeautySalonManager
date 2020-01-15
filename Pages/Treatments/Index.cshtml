@@ -52,7 +52,7 @@
             </div>
             <div id="@cat" class="panel-collapse collapse @collapse">
                 <div class="panel-body">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Nazwa</th>
@@ -82,13 +82,12 @@
                                             @Html.DisplayFor(modelItem => item.Price)
                                         </td>
                                         <td>
-                                            <a asp-page="./Index" asp-route-treatmentId="@item.Id">Wybierz</a> |
+                                            <a asp-page="./Index" asp-route-treatmentId="@item.Id">Wybierz</a> &nbsp;
                                             @if (User.IsInRole("Employee"))
                                             {
-                                                <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> @: |
+                                                <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> @:&nbsp;
+                                                <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                                             }
-                                            <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
-                                            <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                                         </td>
                                     </tr>
                                 }
@@ -104,36 +103,39 @@
 @if (Model.Treatment.Employees != null)
 {
     <h3>Dostępni pracownicy</h3>
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Adres email</th>
-        </tr>
-
-        @foreach (var item in Model.Treatment.Employees)
-        {
-            string selectedRow = "";
-            if (item.Id == Model.EmployeeID)
-            {
-                selectedRow = "success";
-            }
-            <tr class="@selectedRow">
-                <td>
-                    <a asp-page="./Index" asp-route-employeeId="@item.Id">Wybierz</a>
-                </td>
-                <td>
-                    @item.User.LastName
-                </td>
-                <td>
-                    @item.User.FirstName
-                </td>
-                <td>
-                    @item.User.Email
-                </td>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Adres email</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Treatment.Employees)
+            {
+                string selectedRow = "";
+                if (item.Id == Model.EmployeeID)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        <a asp-page="./Index" asp-route-employeeId="@item.Id">Wybierz</a>
+                    </td>
+                    <td>
+                        @item.User.LastName
+                    </td>
+                    <td>
+                        @item.User.FirstName
+                    </td>
+                    <td>
+                        @item.User.Email
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 
     @if (Model.EmployeeID != 0)

@@ -13,9 +13,9 @@ namespace BeautySalonManager.Pages.Employees
     [Authorize]
     public class DeleteModel : PageModel
     {
-        private readonly BeautySalonManager.Models.SalonContext _context;
+        private readonly SalonContext _context;
 
-        public DeleteModel(BeautySalonManager.Models.SalonContext context)
+        public DeleteModel(SalonContext context)
         {
             _context = context;
         }
@@ -23,14 +23,17 @@ namespace BeautySalonManager.Pages.Employees
         [BindProperty]
         public Employee Employee { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? employeeId)
         {
-            if (id == null)
+            if (employeeId == null)
             {
                 return NotFound();
             }
 
-            Employee = await _context.Employee.FirstOrDefaultAsync(m => m.Id == id);
+            Employee = await _context.Employee
+                .Include(q => q.User)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == employeeId);
 
             if (Employee == null)
             {
@@ -39,14 +42,14 @@ namespace BeautySalonManager.Pages.Employees
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? employeeId)
         {
-            if (id == null)
+            if (employeeId == null)
             {
                 return NotFound();
             }
 
-            Employee = await _context.Employee.FindAsync(id);
+            Employee = await _context.Employee.FindAsync(employeeId);
 
             if (Employee != null)
             {
@@ -54,7 +57,7 @@ namespace BeautySalonManager.Pages.Employees
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { message = "Poprawnie usunięto pracownika" });
         }
     }
 }

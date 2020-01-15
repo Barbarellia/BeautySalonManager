@@ -6,14 +6,12 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
-
+<hr />
 <form id="profile-form" method="post">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger fade in">
+    <div asp-validation-summary="ModelOnly" class="alert alert-success fade in">
         <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
     </div>
-    <div class="row">
-        <hr />
+    <div class="row">        
         <div class="col-md-6">
             <dl class="dl-horizontal">
                 <dt>
@@ -26,8 +24,10 @@
                     @Html.DisplayNameFor(model => model.PhoneNumber)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.PhoneNumber)
-                    <a id="edit">Edytuj</a>
+                    <div>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                        <a id="edit">Edytuj</a>
+                    </div>
                 </dd>
             </dl>
         </div>
@@ -44,7 +44,7 @@
 @if (Model.Enrollments.Count > 0)
 {
     <a id="enrols" class="btn btn-default">Moje wizyty</a>
-    <table id="enrolTable" class="table" style="display:none">
+    <table id="enrolTable" class="table table-hover" style="display:none">
         <thead>
             <tr>
                 <th>Data</th>

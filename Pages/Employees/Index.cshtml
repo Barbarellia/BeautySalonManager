@@ -10,7 +10,11 @@
 <p>
     <a asp-page="Create">Dodaj pracownika</a>
 </p>
-<table class="table">
+<div asp-validation-summary="ModelOnly" class="alert alert-success fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+</div>
+
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Imię</th>
@@ -41,7 +45,7 @@
                     <a asp-page="./Index" asp-route-id="@item.Id">Zobacz terminarz</a> |
                     <a asp-page="./Edit" asp-route-id="@item.Id">Przydziel zabiegi</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                    <a asp-page="./Delete" asp-route-employeeId="@item.Id">Usuń</a>
                 </td>
             </tr>
         }
@@ -51,30 +55,31 @@
 @if (Model.Employee.Enrollments != null)
 {
     <h3>Terminy pracownika</h3>
-    <table class="table">
-        <tr>
-            <th>Data</th>
-            <th>Zabieg</th>
-        </tr>
-
-
-        @foreach (var item in Model.Employee.Enrollments)
-        {
-            string selectedRow = "";
-            if (item.Id == Model.EnrollmentID)
-            {
-                selectedRow = "success";
-            }
-            <tr class="@selectedRow">
-                <td>
-                    @item.Date
-                </td>
-                <td>
-                    @item.TreatmentAssignment.Treatment.Name
-                </td>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Zabieg</th>
             </tr>
-        }
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Employee.Enrollments)
+            {
+                string selectedRow = "";
+                if (item.Id == Model.EnrollmentID)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        @item.Date
+                    </td>
+                    <td>
+                        @item.TreatmentAssignment.Treatment.Name
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 

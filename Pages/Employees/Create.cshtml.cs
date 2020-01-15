@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BeautySalonManager.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeautySalonManager.Pages.Employees
 {
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly BeautySalonManager.Models.SalonContext _context;
+        private readonly SalonContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CreateModel(BeautySalonManager.Models.SalonContext context)
+        public CreateModel(SalonContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -35,9 +38,17 @@ namespace BeautySalonManager.Pages.Employees
                 q.FirstName == Employee.User.FirstName &&
                 q.LastName == Employee.User.LastName))
             {
-                ModelState.AddModelError(string.Empty, "User not found.");
+                ModelState.AddModelError(string.Empty, "Nie znaleziono użytkownika.");
                 return Page();
-            }            
+            }
+
+            var user = _context.Users.FirstOrDefault(p => p.Email == Employee.User.Email);
+
+            if (_context.Employee.Any(q => q.UserId == user.Id))
+            {
+                ModelState.AddModelError(string.Empty, "Pracownik już istnieje.");
+                return Page();
+            }
 
             var emptyEmployee = new Employee();
             emptyEmployee.User = _context.Users.FirstOrDefault(
@@ -52,6 +63,9 @@ namespace BeautySalonManager.Pages.Employees
             {
                 _context.Employee.Add(emptyEmployee);
                 await _context.SaveChangesAsync();
+
+                await _userManager.AddToRoleAsync(emptyEmployee.User, "Employee");
+
                 return RedirectToPage("./Index");
             }
 

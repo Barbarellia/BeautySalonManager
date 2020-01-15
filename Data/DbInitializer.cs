@@ -57,14 +57,14 @@ namespace BeautySalonManager.Data
                         SecurityStamp="ET5UKGXLXLEDNX54H6ZI6XYIP3PVNOKB",ConcurrencyStamp="37d393db-0376-46d1-85fc-85cb799ec6cd",
                         PhoneNumber="123456789",LockoutEnabled=true,AccessFailedCount=0},
 
-                    new AppUser{FirstName="Filip", LastName="Kowalczyk", UserName="filip@kowalczyk.pl",
-                        NormalizedUserName="FILIP@KOWALCZYK.PL",Email="filip@kowalczyk.pl", NormalizedEmail="FILIP@KOWALCZYK.PL",
+                    new AppUser{FirstName="Justyna", LastName="Kowalczyk", UserName="justyna@kowalczyk.pl",
+                        NormalizedUserName="JUSTYNA@KOWALCZYK.PL",Email="justyna@kowalczyk.pl", NormalizedEmail="JUSTYNA@KOWALCZYK.PL",
                         PasswordHash="AQAAAAEAACcQAAAAEF2+bzkrQQJxx/o91I+qPiZo+hx5kd9BbVUsvEWk3S7s6yxnrUoyGh4GjZaxUd58VQ==",
                         SecurityStamp="JDU5TXBYQPKHLIC32L2QW5WQPMUUE2JW",ConcurrencyStamp="48049f66-d6c3-4f3d-a6c8-3d94ccc0bd57",
                         PhoneNumber="123456789",LockoutEnabled=true,AccessFailedCount=0},
 
-                    new AppUser{FirstName="Basia", LastName="Szwedex", UserName="basia@szwedex.pl",
-                        NormalizedUserName="BASIA@SZWEDEX.PL",Email="basia@szwedex.pl", NormalizedEmail="BASIA@SZWEDEX.PL",
+                    new AppUser{FirstName="Basia", LastName="Szweda", UserName="basia@szweda.pl",
+                        NormalizedUserName="BASIA@SZWEDA.PL",Email="basia@szweda.pl", NormalizedEmail="BASIA@SZWEDA.PL",
                         PasswordHash="AQAAAAEAACcQAAAAEF2+bzkrQQJxx/o91I+qPiZo+hx5kd9BbVUsvEWk3S7s6yxnrUoyGh4GjZaxUd58VQ==",
                         SecurityStamp="JNVZNOMSXX63POQWXOIBZGMUSFKDTQRV",ConcurrencyStamp="ac38b4a1-5880-41b5-ae9f-a59998608f2d",
                         PhoneNumber="123456789",LockoutEnabled=true,AccessFailedCount=0}

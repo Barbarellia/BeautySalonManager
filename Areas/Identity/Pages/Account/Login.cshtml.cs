@@ -20,15 +20,15 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IConfiguration _configuration;
+        private readonly SalonContext _context;
 
         public LoginModel(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, 
-            ILogger<LoginModel> logger, IConfiguration configuration)
+            ILogger<LoginModel> logger, SalonContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _configuration = configuration;
+            _context = context;
         }
 
         [BindProperty]
@@ -51,7 +51,7 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Zapamiętaj mnie")]
             public bool RememberMe { get; set; }
         }
 
@@ -67,16 +67,11 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            IConfigurationSection employeesSection = _configuration.GetSection("Employees");
-            var empArray = employeesSection.Get<string[]>();
-
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
@@ -84,15 +79,12 @@ namespace BeautySalonManager.Areas.Identity.Pages.Account
                 var user = _userManager.Users.FirstOrDefault(u => u.Email == Input.Email);
                 if(user != null)
                 {
-                    if (_userManager.GetRolesAsync(user).Result.Count == 0)
+                    if (_userManager.GetRolesAsync(user).Result.Count() == 0)
                     {
-                        if (empArray.Contains(user.Email))
-                            await _userManager.AddToRoleAsync(user, "Employee");
-                        else
-                            await _userManager.AddToRoleAsync(user, "Customer");
-                    }
+                        await _userManager.AddToRoleAsync(user, "Employee");
+                    }                    
                 }
-                
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {                  
