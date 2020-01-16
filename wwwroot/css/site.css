@@ -74,8 +74,19 @@ table.table-hover > tbody > tr.success > td > a {
     display: inline-block;
     padding-left: 50px;
     padding-right: 50px;
-    background-color: antiquewhite;
-    opacity: 0.8;
+    background: rgba(255, 242, 230, 0.8);
+    text-align: center;
+    font-family: 'Cormorant SC';
+    color: black;
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+
+.banner:hover {
+    display: inline-block;
+    padding-left: 50px;
+    padding-right: 50px;
+    background: rgba(255, 229, 204, 0.8);
     text-align: center;
     font-family: 'Cormorant SC';
     color: black;
