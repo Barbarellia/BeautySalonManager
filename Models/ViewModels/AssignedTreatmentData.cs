@@ -10,5 +10,6 @@ namespace BeautySalonManager.Models.ViewModels
         public int TreatmentId { get; set; }
         public string Name { get; set; }
         public bool Assigned { get; set; }
+        public int Category { get; set; }
     }
 }

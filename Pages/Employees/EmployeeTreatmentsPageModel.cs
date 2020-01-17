@@ -23,7 +23,8 @@ namespace BeautySalonManager.Pages.Employees
                 {
                     TreatmentId = treatment.Id,
                     Name = treatment.Name,
-                    Assigned = employeeTreatments.Contains(treatment.Id)
+                    Assigned = employeeTreatments.Contains(treatment.Id),
+                    Category = treatment.Category
                 });
             }
         }

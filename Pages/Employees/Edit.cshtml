@@ -4,40 +4,59 @@
 @{
     ViewData["Title"] = "Przydziel zabiegi";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    string catName;
 }
 
 <h2>@ViewData["Title"]</h2>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Employee.Id" />
-            <div class="form-group">
-                <div class="col-md-offset-1">
-                    <table>
-                        <tr>
-                            @{
-                                int cnt = 0;
-
-                                foreach (var treatment in Model.AssignedTreatmentDataList)
-                                {
-                                    if (cnt++ % 5 == 0)
+            <div class="form-group panel-group">
+                @{
+                    for (int i = 1; i < 5; i++)
+                    {
+                        switch (i)
+                        {
+                            case 1:
+                                catName = "Manicure";
+                                break;
+                            case 2:
+                                catName = "Brwi/Rzęsy";
+                                break;
+                            case 3:
+                                catName = "Ciało";
+                                break;
+                            case 4:
+                                catName = "Twarz";
+                                break;
+                            default:
+                                catName = "";
+                                break;
+                        }
+                        <div class="panel panel-default">
+                            <div class="panel-heading">@catName</div>
+                            <div class="panel-body">
+                                <dl class="dl-horizontal">
+                                    @foreach (var treatment in Model.AssignedTreatmentDataList.Where(q => q.Category == i))
                                     {
-                                        @:</tr><tr>
+                                        <dt style="width:20px">
+                                            <input type="checkbox"
+                                                   name="selectedTreatments"
+                                                   value="@treatment.TreatmentId"
+                                                   @(Html.Raw(treatment.Assigned ? "checked=\"checked\"" : "")) />
+                                        </dt>
+                                        <dd style="margin-left:30px; color:#174233">
+                                            @Html.DisplayFor(modelItem => treatment.Name)                                            
+                                        </dd>                                            
                                     }
-                                    @:<td class="col-md-10 text-center text-nowrap">
-                                        <input type="checkbox"
-                                               name="selectedTreatments"
-                                               value="@treatment.TreatmentId"
-                                               @(Html.Raw(treatment.Assigned ? "checked=\"checked\"" : "")) />
-                                               @treatment.Name
-                                    @:</td>
-                                }
-                                @:</tr>
-                            }
-                    </table>
-                </div>
+                                </dl>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Zapisz" class="btn btn-default" />

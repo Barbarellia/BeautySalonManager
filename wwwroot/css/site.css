@@ -37,6 +37,30 @@ a:focus {
     background-color: lightgray;
 }
 
+.table > thead > tr > td.past,
+.table > tbody > tr > td.past,
+.table > tfoot > tr > td.past,
+.table > thead > tr > th.past,
+.table > tbody > tr > th.past,
+.table > tfoot > tr > th.past,
+.table > thead > tr.past > td,
+.table > tbody > tr.past > td,
+.table > tfoot > tr.past > td,
+.table > thead > tr.past > th,
+.table > tbody > tr.past > th,
+.table > tfoot > tr.past > th {
+    background-color: #999999;
+}
+
+.table-hover > tbody > tr > td.past:hover,
+.table-hover > tbody > tr > th.past:hover,
+.table-hover > tbody > tr.past:hover > td,
+.table-hover > tbody > tr:hover > .past,
+.table-hover > tbody > tr.past:hover > th {
+    background-color: #999999;
+}
+
+
 /*panel - tekst*/
 
 .panel-body > table{
